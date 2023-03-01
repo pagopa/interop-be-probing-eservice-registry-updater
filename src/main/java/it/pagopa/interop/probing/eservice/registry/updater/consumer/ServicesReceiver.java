@@ -34,16 +34,13 @@ import it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs.SqsCon
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 import jakarta.inject.Inject;
-
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class ServicesReceiver.
  */
+@Slf4j
 public class ServicesReceiver {
-
-	/** The mapper. */
-	@Inject
-	ObjectMapper mapper;
 
 	/** The sqs config. */
 	@Inject
@@ -73,33 +70,28 @@ public class ServicesReceiver {
 	 */
 	public void receiveStringMessage() throws IOException {
 
-		GetQueueAttributesRequest getQueueAttributesRequest = new GetQueueAttributesRequest(sqsUrlServices).withAttributeNames("All");
-		GetQueueAttributesResult getQueueAttributesResult = sqsConfig.amazonSQSAsync().getQueueAttributes(getQueueAttributesRequest);
+		GetQueueAttributesRequest getQueueAttributesRequest = new GetQueueAttributesRequest(sqsUrlServices)
+				.withAttributeNames("All");
+		GetQueueAttributesResult getQueueAttributesResult = sqsConfig.amazonSQSAsync()
+				.getQueueAttributes(getQueueAttributesRequest);
+		ObjectMapper mapper = new ObjectMapper();
 
-		int numberOfMessages = Integer.parseInt(getQueueAttributesResult.getAttributes().get("ApproximateNumberOfMessages"));
+		Integer numberOfMessages = Integer
+				.parseInt(getQueueAttributesResult.getAttributes().get("ApproximateNumberOfMessages"));
 
-		if(numberOfMessages > 0) {
+		if (numberOfMessages != null && numberOfMessages > 0) {
 
 			ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices);
 			List<Message> sqsMessages = sqsConfig.amazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 			for (Message message : sqsMessages) {
 				EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 				eserviceService.saveService(service);
-				sqsConfig.amazonSQSAsync().deleteMessage(new DeleteMessageRequest()
-						.withQueueUrl(sqsUrlServices)
+				log.info("Service saved.");
+				sqsConfig.amazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
 						.withReceiptHandle(message.getReceiptHandle()));
 			}
 
 		}
-
-
-
-
-
-
-
-
-
-
 	}
+
 }

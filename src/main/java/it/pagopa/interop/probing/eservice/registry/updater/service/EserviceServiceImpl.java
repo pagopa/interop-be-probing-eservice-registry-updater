@@ -25,31 +25,19 @@ import javax.transaction.Transactional;
 
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
-import it.pagopa.interop.probing.eservice.registry.updater.repository.EserviceRepositoryImpl;
+import it.pagopa.interop.probing.eservice.registry.updater.repository.EserviceRepository;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EServiceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceType;
-
+import jakarta.inject.Inject;
 
 /**
  * The Class EserviceServiceImpl.
  */
 @Transactional
 public class EserviceServiceImpl implements EserviceService {
-	
-	/** The instance. */
-	private static EserviceServiceImpl instance;
-	
-	/**
-	 * Gets the single instance of EserviceServiceImpl.
-	 *
-	 * @return single instance of EserviceServiceImpl
-	 */
-	public static EserviceServiceImpl getInstance(){
-		if (instance == null) {
-			instance = new EserviceServiceImpl();
-		}
-		return instance;
-	}
+
+	@Inject
+	EserviceRepository repo;
 
 	/**
 	 * Save service.
@@ -62,9 +50,8 @@ public class EserviceServiceImpl implements EserviceService {
 
 		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
 		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
-		
-		Eservice eservice = EserviceRepositoryImpl.getInstance().findByEserviceIdAndVersionId(eserviceId,
-				versionId);
+
+		Eservice eservice = repo.findByEserviceIdAndVersionId(eserviceId, versionId);
 		if (eservice == null) {
 			eservice = new Eservice();
 			eservice.setVersionId(eserviceId);
@@ -76,8 +63,7 @@ public class EserviceServiceImpl implements EserviceService {
 		eservice.setProducerName(eserviceNew.getProducerName());
 		eservice.setEserviceType(EserviceType.valueOf(eserviceNew.getType()));
 		eservice.setBasePath(eserviceNew.getBasePath());
-		
-		
-		return EserviceRepositoryImpl.getInstance().save(eservice).getId();
+
+		return repo.save(eservice);
 	}
 }

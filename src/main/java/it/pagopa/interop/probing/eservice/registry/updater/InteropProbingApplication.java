@@ -41,5 +41,4 @@ public class InteropProbingApplication {
 		queue.receiveStringMessage();
 		weld.shutdown();
 	}
-
 }

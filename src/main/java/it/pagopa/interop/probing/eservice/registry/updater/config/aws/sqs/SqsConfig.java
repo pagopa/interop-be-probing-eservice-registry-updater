@@ -26,6 +26,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
+
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.util.ProjectConstants;
 
@@ -63,7 +64,7 @@ public class SqsConfig {
 	private static final String URL = "amazon.sqs.end-point.services-queue";
 	
 	/** The Constant PROFILE. */
-	private static final String PROFILE = "amazon.sqs.end-point.services-queue";
+	private static final String PROFILE = "profile.active";
 	
 
 
@@ -92,15 +93,13 @@ public class SqsConfig {
 	 * @return the amazon SQS async
 	 */
 	public AmazonSQSAsync amazonSQSAsync() {
-		AmazonSQSAsync client = profile.equals("prod") ? AmazonSQSAsyncClientBuilder.standard()
+		return profile.equals("prod") ? AmazonSQSAsyncClientBuilder.standard()
 				.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(sqsUrlServices, region)).build()
 				: AmazonSQSAsyncClientBuilder.standard()
 						.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(sqsUrlServices, region))
 						.withCredentials(
 								new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
 						.build();
-		return client;
 	}
-
 
 }
