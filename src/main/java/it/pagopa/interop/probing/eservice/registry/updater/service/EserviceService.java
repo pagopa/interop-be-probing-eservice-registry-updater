@@ -35,4 +35,5 @@ public interface EserviceService {
 		 * @throws IOException Signals that an I/O exception has occurred.
 		 */
 		Long saveService(EserviceDTO eservice) throws IOException;
+		Long saveService() throws IOException;
 }

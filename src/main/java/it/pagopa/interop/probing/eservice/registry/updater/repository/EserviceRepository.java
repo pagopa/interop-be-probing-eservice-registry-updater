@@ -22,7 +22,6 @@ import java.util.UUID;
 
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 
-
 /**
  * The Interface EserviceRepository.
  */
@@ -36,5 +35,13 @@ public interface EserviceRepository {
 	 * @return the eservice
 	 */
 	Eservice findByEserviceIdAndVersionId(UUID serviceIdParam, UUID versionIdParam);
-	
+
+	/**
+	 * Save.
+	 *
+	 * @param eservice the eservice
+	 * @return the eservice
+	 */
+	Long save(Eservice eservice);
+
 }

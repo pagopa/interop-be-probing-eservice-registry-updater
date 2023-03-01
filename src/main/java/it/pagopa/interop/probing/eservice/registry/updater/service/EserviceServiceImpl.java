@@ -66,4 +66,28 @@ public class EserviceServiceImpl implements EserviceService {
 
 		return repo.save(eservice);
 	}
+	
+	public Long saveService() throws IOException {
+		
+		
+
+//		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
+//		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
+//
+//		Eservice eservice = repo.findByEserviceIdAndVersionId(eserviceId, versionId);
+		Eservice eservice = new Eservice();
+//		if (eservice == null) {
+//			eservice = new Eservice();
+//			eservice.setVersionId(eserviceId);
+//			eservice.setEserviceId(versionId);
+//		}
+//
+//		eservice.setEserviceName(eserviceNew.getName());
+//		eservice.setState(EServiceState.valueOf(eserviceNew.getState()));
+//		eservice.setProducerName(eserviceNew.getProducerName());
+//		eservice.setEserviceType(EserviceType.valueOf(eserviceNew.getType()));
+//		eservice.setBasePath(eserviceNew.getBasePath());
+
+		return repo.save(eservice);
+	}
 }

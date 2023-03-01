@@ -21,6 +21,8 @@ package it.pagopa.interop.probing.eservice.registry.updater.repository;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
@@ -28,33 +30,11 @@ import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 /**
  * The Class EserviceRepositoryImpl.
  */
-public class EserviceRepositoryImpl implements EserviceRepository{
-	
-	/** The instance. */
-	private static EserviceRepositoryImpl instance;
-	
+public class EserviceRepositoryImpl implements EserviceRepository {
+
 	/** The em. */
-	private static EntityManager em;
-	
-	/**
-	 * Gets the single instance of EserviceRepositoryImpl.
-	 *
-	 * @return single instance of EserviceRepositoryImpl
-	 */
-	public static EserviceRepositoryImpl getInstance() {
-		if (instance == null) {
-			instance = new EserviceRepositoryImpl(em);
-		}
-		return instance;
-	}
-	 
-    /**
-     * Instantiates a new eservice repository impl.
-     *
-     * @param em the em
-     */
-    public EserviceRepositoryImpl(EntityManager em) {
-    }
+	@PersistenceContext
+	EntityManager em = Persistence.createEntityManagerFactory("interop-db").createEntityManager();;
 
 	/**
 	 * Find by eservice id and version id.
@@ -65,13 +45,13 @@ public class EserviceRepositoryImpl implements EserviceRepository{
 	 */
 	@Override
 	public Eservice findByEserviceIdAndVersionId(UUID serviceIdParam, UUID versionIdParam) {
-		TypedQuery<Eservice> q = em.createQuery("SELECT e FROM Eservice e WHERE e.eservice_id = :serviceIdParam AND e.version_id = :versionIdParam", Eservice.class);
-        q.setParameter("serviceIdParam", serviceIdParam);
-        q.setParameter("versionIdParam", versionIdParam);
-        return q.getSingleResult();
+		TypedQuery<Eservice> q = em.createQuery(
+				"SELECT e FROM Eservice e WHERE e.eservice_id = :serviceIdParam AND e.version_id = :versionIdParam",
+				Eservice.class);
+		q.setParameter("serviceIdParam", serviceIdParam);
+		q.setParameter("versionIdParam", versionIdParam);
+		return q.getSingleResult();
 	}
-
-
 
 	/**
 	 * Save.
@@ -79,13 +59,14 @@ public class EserviceRepositoryImpl implements EserviceRepository{
 	 * @param eservice the eservice
 	 * @return the eservice
 	 */
-	public Eservice save(Eservice eservice) {
+	@Override
+	public Long save(Eservice eservice) {
 		if (eservice.getId() == null) {
-            em.persist(eservice);
-        } else {
-        	eservice = em.merge(eservice);
-        }
-        return eservice;
+			em.persist(eservice);
+		} else {
+			eservice = em.merge(eservice);
+		}
+		return eservice.getId();
 	}
 
 }
