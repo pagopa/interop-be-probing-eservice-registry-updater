@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 28 feb 2023
+* Created on  : 2 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.dto
@@ -47,7 +47,43 @@ import lombok.Setter;
  *
  * @return the producer name
  */
+
+/**
+ * Gets the producer name.
+ *
+ * @return the producer name
+ */
+
+/**
+ * Gets the producer name.
+ *
+ * @return the producer name
+ */
+
+/**
+ * Gets the producer name.
+ *
+ * @return the producer name
+ */
 @Getter
+
+/**
+ * Sets the producer name.
+ *
+ * @param producerName the new producer name
+ */
+
+/**
+ * Sets the producer name.
+ *
+ * @param producerName the new producer name
+ */
+
+/**
+ * Sets the producer name.
+ *
+ * @param producerName the new producer name
+ */
 
 /**
  * Sets the producer name.
@@ -79,7 +115,55 @@ import lombok.Setter;
 /**
  * Instantiates a new eservice DTO.
  */
+
+/**
+ * Instantiates a new eservice DTO.
+ */
+
+/**
+ * Instantiates a new eservice DTO.
+ */
+
+/**
+ * Instantiates a new eservice DTO.
+ */
 @NoArgsConstructor
+
+/**
+ * Instantiates a new eservice DTO.
+ *
+ * @param name the name
+ * @param eserviceId the eservice id
+ * @param versionId the version id
+ * @param type the type
+ * @param state the state
+ * @param basePath the base path
+ * @param producerName the producer name
+ */
+
+/**
+ * Instantiates a new eservice DTO.
+ *
+ * @param name the name
+ * @param eserviceId the eservice id
+ * @param versionId the version id
+ * @param type the type
+ * @param state the state
+ * @param basePath the base path
+ * @param producerName the producer name
+ */
+
+/**
+ * Instantiates a new eservice DTO.
+ *
+ * @param name the name
+ * @param eserviceId the eservice id
+ * @param versionId the version id
+ * @param type the type
+ * @param state the state
+ * @param basePath the base path
+ * @param producerName the producer name
+ */
 
 /**
  * Instantiates a new eservice DTO.

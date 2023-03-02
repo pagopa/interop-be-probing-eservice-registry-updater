@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 28 feb 2023
+* Created on  : 2 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.model
@@ -24,7 +24,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Objects;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
@@ -64,7 +66,7 @@ public class CustomStringArrayType implements UserType {
      */
     @Override
     public boolean equals(Object o, Object o1) throws HibernateException {
-        return false;
+        return Objects.equals(o, o1);
     }
 
     /**
@@ -76,7 +78,7 @@ public class CustomStringArrayType implements UserType {
      */
     @Override
     public int hashCode(Object o) throws HibernateException {
-        return 0;
+        return o.hashCode();
     }
 
     /**
@@ -112,7 +114,7 @@ public class CustomStringArrayType implements UserType {
             throws HibernateException, SQLException {
         if(st != null){
             if (value != null) {
-                Array array = session.connection().createArrayOf("text", (String[])value);
+                Array array = session.connection().createArrayOf("varchar", (String[])value);
                 st.setArray(index, array);
             } else {
                 st.setNull(index, sqlTypes()[0]);
@@ -129,7 +131,7 @@ public class CustomStringArrayType implements UserType {
      */
     @Override
     public Object deepCopy(Object o) throws HibernateException {
-        return null;
+        return SerializationUtils.clone((String[])o);
     }
 
     /**

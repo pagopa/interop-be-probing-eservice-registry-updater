@@ -2,11 +2,11 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 28 feb 2023
+* Created on  : 2 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.model
-* File Name   : Eservice.java
+* File Name   : Eservices.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -19,10 +19,11 @@
 package it.pagopa.interop.probing.eservice.registry.updater.model;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,15 +34,17 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import it.pagopa.interop.probing.eservice.registry.updater.util.EServiceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * The persistent class for the eservices database table.
@@ -52,99 +55,61 @@ import lombok.Setter;
 @TypeDef(name = "basePathType", typeClass = CustomStringArrayType.class)
 
 /**
- * Gets the version id.
+ * To string.
  *
- * @return the version id
+ * @return the java.lang. string
  */
 
 /**
- * Gets the version id.
+ * To string.
  *
- * @return the version id
+ * @return the java.lang. string
  */
 
 /**
- * Gets the version id.
+ * To string.
  *
- * @return the version id
+ * @return the java.lang. string
+ */
+@Data
+
+/**
+ * Instantiates a new eservice.
  */
 
 /**
- * Gets the version id.
- *
- * @return the version id
+ * Instantiates a new eservices.
  */
 
 /**
- * Gets the version id.
- *
- * @return the version id
+ * Instantiates a new eservices.
  */
-@Getter
+@NoArgsConstructor
+public class Eservices implements Serializable {
 
-/**
- * Sets the version id.
- *
- * @param versionId the new version id
- */
-
-/**
- * Sets the version id.
- *
- * @param versionId the new version id
- */
-
-/**
- * Sets the version id.
- *
- * @param versionId the new version id
- */
-
-/**
- * Sets the version id.
- *
- * @param versionId the new version id
- */
-
-/**
- * Sets the version id.
- *
- * @param versionId the new version id
- */
-@Setter
-public class Eservice implements Serializable {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
-	/** The Constant DEFAULT_POLLING_START_TIME. */
-	private static final Time  DEFAULT_POLLING_START_TIME = Time.valueOf("00:00:00");
-	
-	/** The Constant DEFAULT_POLLING_END_TIME. */
-	private static final Time  DEFAULT_POLLING_END_TIME = Time.valueOf("23:59:59");
-	
-	/** The Constant DEFAULT_POLLING_FREQUENCY. */
-	private static final Integer  DEFAULT_POLLING_FREQUENCY = 5;
-	
-	/** The Constant DEFAULT_PROBING_ENABLED. */
-	private static final boolean  DEFAULT_PROBING_ENABLED = true;
-
-	/** The id. */
-	@Id
+    /** The id. */
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "eservice_sequence")
     @SequenceGenerator(name = "eservice_sequence",sequenceName = "eservice_sequence", allocationSize = 1)
+    @Column(updatable = false)
     private Long id;
 
     /** The base path. */
-    @Column(name="base_path", columnDefinition = "text[]")
+    @NotNull
+    @Size(max = 255)
+    @Basic(optional = false)
+    @Column(name="base_path", columnDefinition = "varchar[]")
     @Type(type = "basePathType")
     private String[] basePath;
 
     /** The eservice name. */
+    @NotBlank
+    @Size(max = 255)
     @Column(name="eservice_name")
     private String eserviceName;
 
     /** The eservice type. */
+    @NotNull
     @Column(name="eservice_type")
     @Enumerated(EnumType.STRING)
     private EserviceType eserviceType;
@@ -155,37 +120,62 @@ public class Eservice implements Serializable {
     private UUID eserviceId;
 
     /** The last request. */
-    @Column(name="last_request")
-    private Timestamp lastRequest;
+    @Column(name="last_request", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime lastRequest;
 
     /** The response received. */
-    @Column(name="response_received")
-    private Timestamp responseReceived;
+    @Column(name="response_received", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime responseReceived;
 
     /** The polling end time. */
-    @Column(name="polling_end_time")
-    private Time pollingEndTime = DEFAULT_POLLING_END_TIME;
+    @NotNull
+    @Column(name="polling_end_time", columnDefinition = "TIMESTAMP with time zone")
+    private OffsetDateTime pollingEndTime = OffsetDateTime.of(
+			OffsetDateTime.now().getYear(),
+			OffsetDateTime.now().getMonthValue(),
+			OffsetDateTime.now().getDayOfMonth(),
+			23,
+			59,
+			59,
+			0,
+			ZoneOffset.UTC
+			);
 
     /** The polling frequency. */
+    @NotNull
     @Column(name="polling_frequency", columnDefinition = "integer default 5")
-    private Integer pollingFrequency = DEFAULT_POLLING_FREQUENCY;
+    private Integer pollingFrequency = 5;
 
     /** The polling start time. */
-    @Column(name="polling_start_time")
-    private Time pollingStartTime = DEFAULT_POLLING_START_TIME;
+    @NotNull
+    @Column(name="polling_start_time", columnDefinition = "TIMESTAMP with time zone")
+    private OffsetDateTime pollingStartTime = OffsetDateTime.of(
+			OffsetDateTime.now().getYear(),
+			OffsetDateTime.now().getMonthValue(),
+			OffsetDateTime.now().getDayOfMonth(),
+			0,
+			0,
+			0,
+			0,
+			ZoneOffset.UTC
+			);
 
     /** The probing enabled. */
+    @NotNull
     @Column(name="probing_enabled")
-    private boolean probingEnabled = DEFAULT_PROBING_ENABLED;
+    private boolean probingEnabled;
 
     /** The producer name. */
+    @NotBlank
+    @Size(max = 255)
     @Column(name="producer_name")
     private String producerName;
 
     /** The state. */
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar default 'ACTIVE'")
-    private EServiceState state = EServiceState.ACTIVE;
+    @Column(name = "state")
+    private EServiceState state;
 
     /** The version id. */
     @NotNull

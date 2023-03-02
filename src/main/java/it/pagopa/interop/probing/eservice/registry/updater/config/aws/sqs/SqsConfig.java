@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 28 feb 2023
+* Created on  : 2 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs
@@ -67,6 +67,24 @@ public class SqsConfig {
 	private static final String PROFILE = "profile.active";
 	
 
+	/** The instance. */
+	private static SqsConfig instance;
+
+
+	/**
+	 * Gets the single instance of BucketService.
+	 *
+	 * @return single instance of BucketService
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public static SqsConfig getInstance() throws IOException {
+		if (instance == null) {
+			instance = new SqsConfig();
+		}
+		return instance;
+	}
+	
+	
 
 	/**
 	 * Instantiates a new sqs config.

@@ -2,11 +2,11 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 28 feb 2023
+* Created on  : 2 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.service
-* File Name   : EserviceService.java
+* File Name   : EserviceServiceImpl.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -19,21 +19,64 @@
 package it.pagopa.interop.probing.eservice.registry.updater.service;
 
 import java.io.IOException;
+import java.util.UUID;
 
+import javax.transaction.Transactional;
+
+import it.pagopa.interop.probing.eservice.registry.updater.dao.EserviceDao;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.model.Eservices;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EServiceState;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceType;
 
 /**
- * The Interface EserviceService.
+ * The Class EserviceServiceImpl.
  */
-public interface EserviceService {
-		
-		/**
-		 * Save service.
-		 *
-		 * @param eservice the eservice
-		 * @return the long
-		 * @throws IOException Signals that an I/O exception has occurred.
-		 */
-		Long saveService(EserviceDTO eservice) throws IOException;
-		Long saveService() throws IOException;
+@Transactional
+public class EserviceService {
+	
+	
+	/** The instance. */
+	private static EserviceService instance;
+
+
+	/**
+	 * Gets the single instance of BucketService.
+	 *
+	 * @return single instance of BucketService
+	 */
+	public static EserviceService getInstance() {
+		if (instance == null) {
+			instance = new EserviceService();
+		}
+		return instance;
+	}
+
+	/**
+	 * Save service.
+	 *
+	 * @param eserviceNew the eservice new
+	 * @return the long
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public Long saveService(EserviceDTO eserviceNew) throws IOException{
+
+		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
+		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
+
+		Eservices eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
+		if (eservice == null) {
+			eservice = new Eservices();
+			eservice.setVersionId(versionId);
+			eservice.setEserviceId(eserviceId);
+		}
+		eservice.setEserviceName(eserviceNew.getName());
+		eservice.setState(EServiceState.valueOf(eserviceNew.getState()));
+		eservice.setProducerName(eserviceNew.getProducerName());
+		eservice.setEserviceType(EserviceType.valueOf(eserviceNew.getType()));
+		eservice.setBasePath(eserviceNew.getBasePath());
+
+		return EserviceDao.getInstance().save(eservice);
+	}
+
 }
