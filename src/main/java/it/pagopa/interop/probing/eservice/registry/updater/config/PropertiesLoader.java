@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 2 mar 2023
+* Created on  : 3 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.config
@@ -27,21 +27,26 @@ import java.util.Properties;
  */
 public class PropertiesLoader {
 
-    /**
-     * Load properties.
-     *
-     * @param resourceFileName the resource file name
-     * @return the properties
-     * @throws IOException Signals that an I/O exception has occurred.
-     */
-    public static Properties loadProperties(String resourceFileName) throws IOException {
-        Properties configuration = new Properties();
-        InputStream inputStream = PropertiesLoader.class
-          .getClassLoader()
-          .getResourceAsStream(resourceFileName);
-        configuration.load(inputStream);
-        inputStream.close();
-        return configuration;
-    }
+	/**
+	 * Instantiates a new properties loader.
+	 */
+	private PropertiesLoader() {
+		super();
+	}
+
+	/**
+	 * Load properties.
+	 *
+	 * @param resourceFileName the resource file name
+	 * @return the properties
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public static Properties loadProperties(String resourceFileName) throws IOException {
+		Properties configuration = new Properties();
+		InputStream inputStream = PropertiesLoader.class.getClassLoader().getResourceAsStream(resourceFileName);
+		configuration.load(inputStream);
+		inputStream.close();
+		return configuration;
+	}
 
 }

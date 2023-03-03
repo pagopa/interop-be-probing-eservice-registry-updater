@@ -2,11 +2,11 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 2 mar 2023
+* Created on  : 3 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.service
-* File Name   : EserviceServiceImpl.java
+* File Name   : EserviceService.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -25,20 +25,18 @@ import javax.transaction.Transactional;
 
 import it.pagopa.interop.probing.eservice.registry.updater.dao.EserviceDao;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
-import it.pagopa.interop.probing.eservice.registry.updater.model.Eservices;
-import it.pagopa.interop.probing.eservice.registry.updater.util.EServiceState;
-import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceType;
+import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
 
 /**
  * The Class EserviceServiceImpl.
  */
 @Transactional
 public class EserviceService {
-	
-	
+
 	/** The instance. */
 	private static EserviceService instance;
-
 
 	/**
 	 * Gets the single instance of BucketService.
@@ -59,21 +57,21 @@ public class EserviceService {
 	 * @return the long
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public Long saveService(EserviceDTO eserviceNew) throws IOException{
+	public Long saveService(EserviceDTO eserviceNew) throws IOException {
 
 		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
 		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
 
-		Eservices eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
+		Eservice eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
 		if (eservice == null) {
-			eservice = new Eservices();
+			eservice = new Eservice();
 			eservice.setVersionId(versionId);
 			eservice.setEserviceId(eserviceId);
 		}
 		eservice.setEserviceName(eserviceNew.getName());
-		eservice.setState(EServiceState.valueOf(eserviceNew.getState()));
+		eservice.setState(EserviceState.valueOf(eserviceNew.getState()));
 		eservice.setProducerName(eserviceNew.getProducerName());
-		eservice.setEserviceType(EserviceType.valueOf(eserviceNew.getType()));
+		eservice.setTechnology(EserviceTechnology.valueOf(eserviceNew.getTechnology()));
 		eservice.setBasePath(eserviceNew.getBasePath());
 
 		return EserviceDao.getInstance().save(eservice);

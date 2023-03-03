@@ -6,7 +6,7 @@
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.util
-* File Name   : EserviceState.java
+* File Name   : EserviceTechnology.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -22,25 +22,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * The Enum EServiceState.
+ * The Enum EserviceType.
  */
-public enum EserviceState {
+public enum EserviceTechnology {
 
-	/** The active. */
-	ACTIVE("ACTIVE"),
+	/** The rest. */
+	REST("REST"),
 
-	/** The inactive. */
-	INACTIVE("INACTIVE");
+	/** The soap. */
+	SOAP("SOAP");
 
 	/** The value. */
 	private String value;
 
 	/**
-	 * Instantiates a new e service state.
+	 * Instantiates a new eservice type.
 	 *
 	 * @param value the value
 	 */
-	EserviceState(String value) {
+	EserviceTechnology(String value) {
 		this.value = value;
 	}
 
@@ -68,11 +68,11 @@ public enum EserviceState {
 	 * From value.
 	 *
 	 * @param value the value
-	 * @return the e service state
+	 * @return the eservice type
 	 */
 	@JsonCreator
-	public static EserviceState fromValue(String value) {
-		for (EserviceState b : EserviceState.values()) {
+	public static EserviceTechnology fromValue(String value) {
+		for (EserviceTechnology b : EserviceTechnology.values()) {
 			if (b.value.equals(value)) {
 				return b;
 			}

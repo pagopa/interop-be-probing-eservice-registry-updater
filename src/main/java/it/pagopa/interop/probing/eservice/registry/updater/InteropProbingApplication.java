@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 2 mar 2023
+* Created on  : 3 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater
@@ -27,12 +27,6 @@ import it.pagopa.interop.probing.eservice.registry.updater.consumer.ServicesRece
  */
 public class InteropProbingApplication {
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	public static void main(String[] args) throws IOException {
 		ServicesReceiver.getInstance().receiveStringMessage();
 	}

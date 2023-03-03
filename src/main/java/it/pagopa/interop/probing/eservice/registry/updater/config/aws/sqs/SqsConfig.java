@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 2 mar 2023
+* Created on  : 3 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs
@@ -18,91 +18,45 @@
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 
-import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
-import it.pagopa.interop.probing.eservice.registry.updater.util.ProjectConstants;
+import lombok.Getter;
 
 /**
  * The Class SqsConfig.
  */
+/**
+ * Gets the amazon SQS async.
+ *
+ * @return the amazon SQS async
+ */
+@Getter
 public class SqsConfig {
 
-	/** The region. */
-	private String region;
-
-	/** The access key. */
-	private String accessKey;
-
-	/** The secret key. */
-	private String secretKey;
-
-	/** The sqs url services. */
-	private String sqsUrlServices;
-
-	/** The profile. */
-	private String profile;
-
-	
-	/** The Constant ACCESS_KEY. */
-	private static final String ACCESS_KEY = "amazon.sqs.credentials.accessKey";
-	
-	/** The Constant SECRET_KEY. */
-	private static final String SECRET_KEY = "amazon.sqs.credentials.accessKey";
-
-	/** The Constant REGION. */
-	private static final String REGION = "amazon.sqs.region.static";
-	
-	/** The Constant URL. */
-	private static final String URL = "amazon.sqs.end-point.services-queue";
-	
-	/** The Constant PROFILE. */
-	private static final String PROFILE = "profile.active";
-	
+	/** The amazon SQS async. */
+	private AmazonSQSAsync amazonSQSAsync;
 
 	/** The instance. */
 	private static SqsConfig instance;
 
-
 	/**
-	 * Gets the single instance of BucketService.
+	 * Gets the single instance of SqsConfig.
 	 *
-	 * @return single instance of BucketService
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @return single instance of SqsConfig
 	 */
-	public static SqsConfig getInstance() throws IOException {
+	public static SqsConfig getInstance() {
 		if (instance == null) {
 			instance = new SqsConfig();
 		}
 		return instance;
 	}
-	
-	
 
 	/**
 	 * Instantiates a new sqs config.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public SqsConfig() throws IOException {
-		Properties configuration = PropertiesLoader.loadProperties(ProjectConstants.PROPERTIES);
-		String accessKey = configuration.getProperty(ACCESS_KEY);
-		String secretKey = configuration.getProperty(SECRET_KEY);
-		String amazonAWSRegion = configuration.getProperty(REGION);
-		String sqsUrlServices = configuration.getProperty(URL);
-		String profile = configuration.getProperty(PROFILE);
-		this.accessKey = accessKey;
-		this.secretKey = secretKey;
-		this.region = amazonAWSRegion;
-		this.sqsUrlServices = sqsUrlServices;
-		this.profile = profile;
+	private SqsConfig() {
+		this.amazonSQSAsync = amazonSQSAsync();
 	}
 
 	/**
@@ -110,14 +64,9 @@ public class SqsConfig {
 	 *
 	 * @return the amazon SQS async
 	 */
-	public AmazonSQSAsync amazonSQSAsync() {
-		return profile.equals("prod") ? AmazonSQSAsyncClientBuilder.standard()
-				.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(sqsUrlServices, region)).build()
-				: AmazonSQSAsyncClientBuilder.standard()
-						.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(sqsUrlServices, region))
-						.withCredentials(
-								new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-						.build();
+	private AmazonSQSAsync amazonSQSAsync() {
+		return AmazonSQSAsyncClientBuilder.standard().build();
+
 	}
 
 }

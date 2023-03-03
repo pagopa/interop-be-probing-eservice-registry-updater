@@ -2,7 +2,7 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 2 mar 2023
+* Created on  : 3 mar 2023
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.dto
@@ -21,44 +21,17 @@ package it.pagopa.interop.probing.eservice.registry.updater.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateEnum;
-import it.pagopa.interop.probing.eservice.registry.updater.util.EServiceState;
-import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceType;
-import lombok.AllArgsConstructor;
+import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateStringArraySize;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
+import lombok.ToString;
 
 /**
  * Gets the producer name.
@@ -72,57 +45,7 @@ import lombok.Setter;
  *
  * @param producerName the new producer name
  */
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
 @Setter
-
-/**
- * Instantiates a new eservice DTO.
- */
-
-/**
- * Instantiates a new eservice DTO.
- */
-
-/**
- * Instantiates a new eservice DTO.
- */
-
-/**
- * Instantiates a new eservice DTO.
- */
-
-/**
- * Instantiates a new eservice DTO.
- */
 
 /**
  * Instantiates a new eservice DTO.
@@ -130,103 +53,53 @@ import lombok.Setter;
 @NoArgsConstructor
 
 /**
- * Instantiates a new eservice DTO.
+ * Hash code.
  *
- * @param name the name
- * @param eserviceId the eservice id
- * @param versionId the version id
- * @param type the type
- * @param state the state
- * @param basePath the base path
- * @param producerName the producer name
+ * @return the int
  */
+@EqualsAndHashCode
 
 /**
- * Instantiates a new eservice DTO.
+ * To string.
  *
- * @param name the name
- * @param eserviceId the eservice id
- * @param versionId the version id
- * @param type the type
- * @param state the state
- * @param basePath the base path
- * @param producerName the producer name
+ * @return the java.lang. string
  */
-
-/**
- * Instantiates a new eservice DTO.
- *
- * @param name the name
- * @param eserviceId the eservice id
- * @param versionId the version id
- * @param type the type
- * @param state the state
- * @param basePath the base path
- * @param producerName the producer name
- */
-
-/**
- * Instantiates a new eservice DTO.
- *
- * @param name the name
- * @param eserviceId the eservice id
- * @param versionId the version id
- * @param type the type
- * @param state the state
- * @param basePath the base path
- * @param producerName the producer name
- */
-
-/**
- * Instantiates a new eservice DTO.
- *
- * @param name the name
- * @param eserviceId the eservice id
- * @param versionId the version id
- * @param type the type
- * @param state the state
- * @param basePath the base path
- * @param producerName the producer name
- */
-@AllArgsConstructor
+@ToString
 public class EserviceDTO {
 
-		/** The name. */
-		@NotBlank(message = "must not be blank")
-		private String name;
-		
-		/** The eservice id. */
-		@NotBlank(message = "must not be blank")
-		@Pattern(regexp="^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", message="must respect the UUID regex")
-		private String eserviceId;
-		
-		/** The version id. */
-		@Pattern(regexp="^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", message="must respect the UUID regex")
-		@NotBlank(message = "versionId must not be blank")
-		private String versionId;
-		
-		/** The type. */
-		@NotBlank(message = "must not be blank")
-		@ValidateEnum(
-			     enumClass = EserviceType.class,
-			     message = "value must be present in the EserviceType enum"
-			 )
-		private String type;
-		
-		/** The state. */
-		@NotBlank(message = "must not be blank")
-		@ValidateEnum(
-			     enumClass = EServiceState.class,
-			     message = "value must be present in the EServiceState enum"
-			 )
-		private String state;
-		
-		/** The base path. */
-		@NotEmpty(message = "list cannot be empty")
-		private String[] basePath;
-		
-		/** The producer name. */
-		@NotBlank(message = "must not be blank")
-		private String producerName;	
-		
+	/** The name. */
+	@NotBlank(message = "must not be blank")
+	@Size(max = 255, message = "must not be longer than 255 chars")
+	private String name;
+
+	/** The eservice id. */
+	@NotBlank(message = "must not be blank")
+	@Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", message = "must respect the UUID regex")
+	private String eserviceId;
+
+	/** The version id. */
+	@Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$", message = "must respect the UUID regex")
+	@NotBlank(message = "must not be blank")
+	private String versionId;
+
+	/** The type. */
+	@NotBlank(message = "must not be blank")
+	@ValidateEnum(enumClass = EserviceTechnology.class)
+	private String technology;
+
+	/** The state. */
+	@NotBlank(message = "must not be blank")
+	@ValidateEnum(enumClass = EserviceState.class)
+	private String state;
+
+	/** The base path. */
+	@NotEmpty(message = "list cannot be empty")
+	@ValidateStringArraySize(maxSize = 255)
+	private String[] basePath;
+
+	/** The producer name. */
+	@NotBlank(message = "must not be blank")
+	@Size(max = 255, message = "must not be longer than 255 chars")
+	private String producerName;
+
 }

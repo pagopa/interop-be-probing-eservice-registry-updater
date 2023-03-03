@@ -6,7 +6,7 @@
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations.validator
-* File Name   : EnumValidator.java
+* File Name   : StringArrayValidator.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -18,21 +18,18 @@
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.annotations.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateEnum;
+import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateStringArraySize;
 
 /**
- * The Class EnumValidator.
+ * The Class StringArrayValidator.
  */
-public class EnumValidator implements ConstraintValidator<ValidateEnum, String> {
+public class StringArrayValidator implements ConstraintValidator<ValidateStringArraySize, String[]> {
 
-	/** The value list. */
-	private List<String> valueList;
+	/** The max size. */
+	int maxSize;
 
 	/**
 	 * Initialize.
@@ -40,27 +37,27 @@ public class EnumValidator implements ConstraintValidator<ValidateEnum, String> 
 	 * @param constraintAnnotation the constraint annotation
 	 */
 	@Override
-	public void initialize(ValidateEnum constraintAnnotation) {
-		valueList = new ArrayList<>();
-		Class<? extends Enum<?>> enumClass = constraintAnnotation.enumClass();
-
-		@SuppressWarnings("rawtypes")
-		Enum[] enumValArr = enumClass.getEnumConstants();
-		for (Enum<?> enumVal : enumValArr) {
-			valueList.add(enumVal.toString().toUpperCase());
-		}
+	public void initialize(ValidateStringArraySize constraintAnnotation) {
+		maxSize = constraintAnnotation.maxSize();
 	}
 
 	/**
 	 * Checks if is valid.
 	 *
-	 * @param value   the value
+	 * @param array   the array
 	 * @param context the context
 	 * @return true, if is valid
 	 */
 	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
-		return value != null ? valueList.contains(value.toUpperCase()) : true;
+	public boolean isValid(String[] array, ConstraintValidatorContext context) {
+		if (array != null) {
+			for (String s : array) {
+				if (s.length() > maxSize) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

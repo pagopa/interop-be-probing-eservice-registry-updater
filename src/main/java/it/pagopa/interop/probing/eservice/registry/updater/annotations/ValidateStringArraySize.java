@@ -6,7 +6,7 @@
 * Author      : dxc technology
 * Project Name: interop-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations
-* File Name   : ValidateEnum.java
+* File Name   : ValidateStringArraySize.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
@@ -26,29 +26,29 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import it.pagopa.interop.probing.eservice.registry.updater.annotations.validator.EnumValidator;
+import it.pagopa.interop.probing.eservice.registry.updater.annotations.validator.StringArrayValidator;
 
 /**
- * The Interface ValidateEnum.
+ * The Interface ValidateStringArray.
  */
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EnumValidator.class)
-public @interface ValidateEnum {
+@Constraint(validatedBy = StringArrayValidator.class)
+public @interface ValidateStringArraySize {
 
 	/**
-	 * Enum class.
+	 * Max size.
 	 *
-	 * @return the class<? extends enum<?>>
+	 * @return the int
 	 */
-	Class<? extends Enum<?>> enumClass();
+	int maxSize();
 
 	/**
 	 * Message.
 	 *
 	 * @return the string
 	 */
-	String message() default "value must be present in the enum {enumClass}";
+	String message() default "One of the strings of the array is more than {maxSize} characters long";
 
 	/**
 	 * Groups.

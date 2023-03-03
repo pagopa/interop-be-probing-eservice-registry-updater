@@ -1,21 +1,21 @@
 /**************************************************************************
- *
- * Copyright 2023 (C) DXC
- *
- * Created on  : 2 mar 2023
- * Author      : dxc technology
- * Project Name: interop-probing-eservice-registry-updater 
- * Package     : it.pagopa.interop.probing.eservice.registry.updater.consumer
- * File Name   : ServicesReceiver.java
- *
- *-----------------------------------------------------------------------------
- * Revision History (Release )
- *-----------------------------------------------------------------------------
- * VERSION     DESCRIPTION OF CHANGE
- *-----------------------------------------------------------------------------
- ** --/1.0  |  Initial Create.
- **---------|------------------------------------------------------------------
- ***************************************************************************/
+*
+* Copyright 2023 (C) DXC
+*
+* Created on  : 3 mar 2023
+* Author      : dxc technology
+* Project Name: interop-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.consumer
+* File Name   : ServicesReceiver.java
+*
+*-----------------------------------------------------------------------------
+* Revision History (Release )
+*-----------------------------------------------------------------------------
+* VERSION     DESCRIPTION OF CHANGE
+*-----------------------------------------------------------------------------
+** --/1.0  |  Initial Create.
+**---------|------------------------------------------------------------------
+***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 
 import java.io.IOException;
@@ -38,17 +38,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 /** The Constant log. */
-
-/** The Constant log. */
-
-/** The Constant log. */
 @Slf4j
 public class ServicesReceiver {
 
-
 	/** The instance. */
 	private static ServicesReceiver instance;
-
 
 	/**
 	 * Gets the single instance of BucketService.
@@ -74,7 +68,7 @@ public class ServicesReceiver {
 	 */
 	public ServicesReceiver() throws IOException {
 		Properties configuration = PropertiesLoader.loadProperties("application.properties");
-		this.sqsUrlServices = configuration.getProperty("amazon.sqs.end-point.services-queue");
+		this.sqsUrlServices = configuration.getProperty("amazon.sqs.endpoint.services-queue");
 	}
 
 	/**
@@ -88,18 +82,16 @@ public class ServicesReceiver {
 		SqsConfig sqs = SqsConfig.getInstance();
 
 		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices);
-		List<Message> sqsMessages = sqs.amazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
-		while(sqsMessages!=null && !sqsMessages.isEmpty()) {
-				EserviceDTO service = mapper.readValue(sqsMessages.get(0).getBody(), EserviceDTO.class);
-				EserviceService.getInstance().saveService(service);
-				log.info("Service saved.");
-				sqs.amazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
-						.withReceiptHandle(sqsMessages.get(0).getReceiptHandle()));
-				log.info("Message deleted from queue. Reading next message.");
-				sqsMessages=sqs.amazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
-			}
+		List<Message> sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
+		while (sqsMessages != null && !sqsMessages.isEmpty()) {
+			EserviceDTO service = mapper.readValue(sqsMessages.get(0).getBody(), EserviceDTO.class);
+			EserviceService.getInstance().saveService(service);
+			log.info("Service saved.");
+			sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
+					.withReceiptHandle(sqsMessages.get(0).getReceiptHandle()));
+			log.info("Message deleted from queue. Reading next message.");
+			sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 		}
-	
-
+	}
 
 }
