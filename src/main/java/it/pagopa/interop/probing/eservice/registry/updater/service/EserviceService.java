@@ -2,23 +2,24 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 3 mar 2023
-* Author      : dxc technology
-* Project Name: interop-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.service
-* File Name   : EserviceService.java
+* Created on  : 6 Mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.service
+* File Name   : EserviceService.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.service;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -44,7 +45,7 @@ public class EserviceService {
 	 * @return single instance of BucketService
 	 */
 	public static EserviceService getInstance() {
-		if (instance == null) {
+		if (Objects.isNull(instance)) {
 			instance = new EserviceService();
 		}
 		return instance;
@@ -63,7 +64,7 @@ public class EserviceService {
 		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
 
 		Eservice eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
-		if (eservice == null) {
+		if (Objects.isNull(eservice)) {
 			eservice = new Eservice();
 			eservice.setVersionId(versionId);
 			eservice.setEserviceId(eserviceId);

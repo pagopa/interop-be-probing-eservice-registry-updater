@@ -2,24 +2,25 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 3 mar 2023
-* Author      : dxc technology
-* Project Name: interop-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations.validator
-* File Name   : EnumValidator.java
+* Created on  : 6 Mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations.validator
+* File Name   : EnumValidator.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.annotations.validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -60,7 +61,7 @@ public class EnumValidator implements ConstraintValidator<ValidateEnum, String> 
 	 */
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		return value != null ? valueList.contains(value.toUpperCase()) : true;
+		return Objects.nonNull(value) ? valueList.contains(value.toUpperCase()) : true;
 	}
 
 }

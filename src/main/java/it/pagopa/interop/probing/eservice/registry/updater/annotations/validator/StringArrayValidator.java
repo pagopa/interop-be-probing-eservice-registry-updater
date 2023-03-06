@@ -2,21 +2,23 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 3 mar 2023
-* Author      : dxc technology
-* Project Name: interop-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations.validator
-* File Name   : StringArrayValidator.java
+* Created on  : 6 Mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations.validator
+* File Name   : StringArrayValidator.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.annotations.validator;
+
+import java.util.Objects;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -29,7 +31,7 @@ import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateS
 public class StringArrayValidator implements ConstraintValidator<ValidateStringArraySize, String[]> {
 
 	/** The max size. */
-	int maxSize;
+	private int maxSize;
 
 	/**
 	 * Initialize.
@@ -50,7 +52,7 @@ public class StringArrayValidator implements ConstraintValidator<ValidateStringA
 	 */
 	@Override
 	public boolean isValid(String[] array, ConstraintValidatorContext context) {
-		if (array != null) {
+		if (Objects.nonNull(array)) {
 			for (String s : array) {
 				if (s.length() > maxSize) {
 					return false;

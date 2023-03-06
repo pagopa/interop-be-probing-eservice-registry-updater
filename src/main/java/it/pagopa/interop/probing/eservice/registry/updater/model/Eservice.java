@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 3 mar 2023
-* Author      : dxc technology
-* Project Name: interop-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
-* File Name   : Eservice.java
+* Created on  : 6 Mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
+* File Name   : Eservice.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.model;
@@ -60,7 +60,17 @@ import lombok.NoArgsConstructor;
  *
  * @return the java.lang. string
  */
+
+/**
+ * To string.
+ *
+ * @return the java.lang. string
+ */
 @Data
+
+/**
+ * Instantiates a new eservice.
+ */
 
 /**
  * Instantiates a new eservice.
@@ -68,9 +78,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Eservice implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2324588888685572113L;
 
 	/** The id. */

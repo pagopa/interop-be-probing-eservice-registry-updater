@@ -2,11 +2,11 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : Feb 24, 2023
+* Created on  : 6 Mar 2023
 * Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-reader 
-* Package     : it.pagopa.interop.probing.eservice.registry.reader.util
-* File Name   : EServiceState.java
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.util
+* File Name   : EserviceState.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
