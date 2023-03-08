@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
-* File Name   : CustomStringArrayType.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
+* File Name   : CustomStringArrayType.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.model;
@@ -59,7 +59,7 @@ public class CustomStringArrayType implements UserType {
 	/**
 	 * Equals.
 	 *
-	 * @param o  the o
+	 * @param o the o
 	 * @param o1 the o 1
 	 * @return true, if successful
 	 * @throws HibernateException the hibernate exception
@@ -84,13 +84,13 @@ public class CustomStringArrayType implements UserType {
 	/**
 	 * Null safe get.
 	 *
-	 * @param rs      the rs
-	 * @param names   the names
+	 * @param rs the rs
+	 * @param names the names
 	 * @param session the session
-	 * @param owner   the owner
+	 * @param owner the owner
 	 * @return the object
 	 * @throws HibernateException the hibernate exception
-	 * @throws SQLException       the SQL exception
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
@@ -102,12 +102,12 @@ public class CustomStringArrayType implements UserType {
 	/**
 	 * Null safe set.
 	 *
-	 * @param st      the st
-	 * @param value   the value
-	 * @param index   the index
+	 * @param st the st
+	 * @param value the value
+	 * @param index the index
 	 * @param session the session
 	 * @throws HibernateException the hibernate exception
-	 * @throws SQLException       the SQL exception
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
@@ -160,7 +160,7 @@ public class CustomStringArrayType implements UserType {
 	 * Assemble.
 	 *
 	 * @param serializable the serializable
-	 * @param o            the o
+	 * @param o the o
 	 * @return the object
 	 * @throws HibernateException the hibernate exception
 	 */
@@ -172,7 +172,7 @@ public class CustomStringArrayType implements UserType {
 	/**
 	 * Replace.
 	 *
-	 * @param o  the o
+	 * @param o the o
 	 * @param o1 the o 1
 	 * @param o2 the o 2
 	 * @return the object

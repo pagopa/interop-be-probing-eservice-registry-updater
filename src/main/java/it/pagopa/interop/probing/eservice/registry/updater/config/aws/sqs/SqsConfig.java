@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs
-* File Name   : SqsConfig.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs
+* File Name   : SqsConfig.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs;
@@ -24,15 +24,6 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 
 import lombok.Getter;
-
-/**
- * The Class SqsConfig.
- */
-/**
- * Gets the amazon SQS async.
- *
- * @return the amazon SQS async
- */
 
 /**
  * Gets the amazon SQS async.

@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.dao
-* File Name   : EserviceDao.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.dao
+* File Name   : EserviceDao.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.dao;
@@ -26,33 +26,22 @@ import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-/**
- * The Class EserviceRepositoryImpl.
- */
-
-/** The Constant log. */
-
-/** The Constant log. */
 
 /** The Constant log. */
 @Slf4j
 
 /**
- * Instantiates a new eservice dao.
+ * Gets the em.
+ *
+ * @return the em
  */
-
-/**
- * Instantiates a new eservice dao.
- */
-@NoArgsConstructor
+@Getter
 public class EserviceDao {
 
 	/** The instance. */
@@ -60,58 +49,59 @@ public class EserviceDao {
 
 	/** The Constant CONNECTION_PROP_URL. */
 	private static final String CONNECTION_PROP_URL = "javax.persistence.jdbc.url";
-	
+
 	/** The Constant CONNECTION_PROP_USR. */
 	private static final String CONNECTION_PROP_USR = "javax.persistence.jdbc.user";
-	
+
 	/** The Constant CONNECTION_PROP_PSW. */
 	private static final String CONNECTION_PROP_PSW = "javax.persistence.jdbc.password";
-	
+
 	/** The Constant AURORA_URL. */
 	private static final String AURORA_URL = "amazon.aurora.url";
-	
+
 	/** The Constant AURORA_USR. */
 	private static final String AURORA_USR = "amazon.aurora.user";
-	
+
 	/** The Constant AURORA_PSW. */
 	private static final String AURORA_PSW = "amazon.aurora.password";
-	
+
 	/** The Constant PERSISTENCE_UNIT_NAME. */
-	private static final String PERSISTENCE_UNIT_NAME = "interop-db";
-	
+	private static final String PERSISTENCE_UNIT_NAME = "hibernate.persist.unit";
+
 	/** The Constant VERSION_ID_PARAM_NAME. */
 	private static final String VERSION_ID_PARAM_NAME = "versionIdParam";
-	
+
 	/** The Constant SERVICE_ID_PARAM_NAME. */
 	private static final String SERVICE_ID_PARAM_NAME = "serviceIdParam";
-	
+
 	/** The Constant FIND_BY_SERVICE_AND_VERSION_ID_QUERY. */
 	private static final String FIND_BY_SERVICE_AND_VERSION_ID_QUERY = "SELECT e FROM Eservice e WHERE e.eserviceId = :serviceIdParam AND e.versionId = :versionIdParam";
+
+	/** The em. */
+	EntityManager em;
 
 	/**
 	 * Instantiates a new eservice dao.
 	 *
-	 * @param entityManager the entity manager
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public EserviceDao(EntityManager entityManager) {
-		this.em = entityManager;
+	private EserviceDao() throws IOException {
+		this.em = Persistence.createEntityManagerFactory(PropertiesLoader.getInstance().getKey(PERSISTENCE_UNIT_NAME),
+				getProperties()).createEntityManager();
 	}
 
 	/**
-	 * Gets the single instance of BucketService.
+	 * Gets the single instance of EserviceDao.
 	 *
-	 * @return single instance of BucketService
+	 * @return single instance of EserviceDao
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public static EserviceDao getInstance() {
+	public static EserviceDao getInstance() throws IOException {
 		if (Objects.isNull(instance)) {
 			instance = new EserviceDao();
 		}
 		return instance;
 	}
-
-	/** The em. */
-	@PersistenceContext
-	EntityManager em = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, getProperties()).createEntityManager();
 
 	/**
 	 * Gets the properties.
@@ -145,7 +135,6 @@ public class EserviceDao {
 		TypedQuery<Eservice> q = em.createQuery(FIND_BY_SERVICE_AND_VERSION_ID_QUERY, Eservice.class);
 		q.setParameter(SERVICE_ID_PARAM_NAME, serviceIdParam);
 		q.setParameter(VERSION_ID_PARAM_NAME, versionIdParam);
-
 		if (!q.getResultList().isEmpty()) {
 			return q.getResultList().get(0);
 		} else {
@@ -157,7 +146,7 @@ public class EserviceDao {
 	 * Save.
 	 *
 	 * @param eservice the eservice
-	 * @return the eservice
+	 * @return the long
 	 */
 	public Long save(Eservice eservice) {
 		em.getTransaction().begin();
@@ -167,6 +156,7 @@ public class EserviceDao {
 			em.merge(eservice);
 		}
 		em.getTransaction().commit();
+		em.clear();
 		return eservice.getId();
 	}
 

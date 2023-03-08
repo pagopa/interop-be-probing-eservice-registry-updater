@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.dto
-* File Name   : EserviceDTO.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.dto
+* File Name   : EserviceDTO.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.dto;
@@ -38,19 +38,7 @@ import lombok.ToString;
  *
  * @return the producer name
  */
-
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
 @Getter
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
 
 /**
  * Sets the producer name.
@@ -62,10 +50,6 @@ import lombok.ToString;
 /**
  * Instantiates a new eservice DTO.
  */
-
-/**
- * Instantiates a new eservice DTO.
- */
 @NoArgsConstructor
 
 /**
@@ -73,19 +57,7 @@ import lombok.ToString;
  *
  * @return the int
  */
-
-/**
- * Hash code.
- *
- * @return the int
- */
 @EqualsAndHashCode
-
-/**
- * To string.
- *
- * @return the java.lang. string
- */
 
 /**
  * To string.
@@ -110,7 +82,7 @@ public class EserviceDTO {
 	@NotBlank(message = "must not be blank")
 	private String versionId;
 
-	/** The type. */
+	/** The technology. */
 	@NotBlank(message = "must not be blank")
 	@ValidateEnum(enumClass = EserviceTechnology.class)
 	private String technology;

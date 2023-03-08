@@ -2,9 +2,9 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 3 mar 2023
+* Created on  : 7 mar 2023
 * Author      : dxc technology
-* Project Name: interop-probing-eservice-registry-updater 
+* Project Name: interop-be-probing-eservice-registry-updater 
 * Package     : it.pagopa.interop.probing.eservice.registry.updater.unit.service
 * File Name   : EserviceServiceTest.java
 *
@@ -16,6 +16,7 @@
 ** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
+
 package it.pagopa.interop.probing.eservice.registry.updater.unit.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +39,6 @@ import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 
-
 /**
  * The Class EserviceServiceTest.
  */
@@ -46,7 +46,7 @@ class EserviceServiceTest {
 
 	/** The eservice dao. */
 	EserviceDao eserviceDao = mock(EserviceDao.class);
-	
+
 	/** The e service DTO. */
 	EserviceDTO eServiceDTO;
 
@@ -69,7 +69,6 @@ class EserviceServiceTest {
 
 	}
 
-
 	/**
 	 * Test save eservice when doesnt exist given valid E service then save entity and return id.
 	 *
@@ -77,11 +76,11 @@ class EserviceServiceTest {
 	 */
 	@Test
 	@DisplayName("The saveEservice method is executed if the Eservice doesn't exist")
-	void testSaveEservice_whenDoesntExist_GivenValidEService_thenSaveEntityAndReturnId() throws IOException{
+	void testSaveEservice_whenDoesntExist_GivenValidEService_thenSaveEntityAndReturnId() throws IOException {
 
 		Eservice serviceEntity = getEserviceEntity(eServiceDTO.getEserviceId(), eServiceDTO.getVersionId());
 
-		try (MockedStatic<EserviceDao> daoMock = Mockito.mockStatic(EserviceDao.class)) { 
+		try (MockedStatic<EserviceDao> daoMock = Mockito.mockStatic(EserviceDao.class)) {
 
 			daoMock.when(EserviceDao::getInstance).thenReturn(eserviceDao);
 
@@ -92,7 +91,6 @@ class EserviceServiceTest {
 			assertEquals(id, serviceEntity.getId());
 		}
 	}
-
 
 	/**
 	 * Gets the eservice entity.
@@ -108,12 +106,11 @@ class EserviceServiceTest {
 		serviceEntity.setEserviceId(UUID.fromString(eserviceId));
 		serviceEntity.setVersionId(UUID.fromString(versionId));
 		serviceEntity.setEserviceName("E-Service name");
-		serviceEntity.setBasePath(new String[]{"test-BasePath-1", "test-BasePath-2"});
+		serviceEntity.setBasePath(new String[] { "test-BasePath-1", "test-BasePath-2" });
 		serviceEntity.setPollingFrequency(5);
 		serviceEntity.setProducerName("Producer name");
 		serviceEntity.setProbingEnabled(true);
 		return serviceEntity;
 	}
-
 
 }

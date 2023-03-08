@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.consumer
-* File Name   : ServicesReceiver.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.consumer
+* File Name   : ServicesReceiver.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.consumer;
@@ -21,7 +21,6 @@ package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Properties;
 
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
@@ -34,12 +33,6 @@ import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * The Class ServicesReceiver.
- */
-
-/** The Constant log. */
-
 /** The Constant log. */
 @Slf4j
 public class ServicesReceiver {
@@ -51,9 +44,9 @@ public class ServicesReceiver {
 	private static final String SQS = "amazon.sqs.endpoint.services-queue";
 
 	/**
-	 * Gets the single instance of BucketService.
+	 * Gets the single instance of ServicesReceiver.
 	 *
-	 * @return single instance of BucketService
+	 * @return single instance of ServicesReceiver
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static ServicesReceiver getInstance() throws IOException {
@@ -88,6 +81,7 @@ public class ServicesReceiver {
 
 		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices);
 		List<Message> sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
+
 		while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
 			EserviceDTO service = mapper.readValue(sqsMessages.get(0).getBody(), EserviceDTO.class);
 			EserviceService.getInstance().saveService(service);
@@ -97,6 +91,7 @@ public class ServicesReceiver {
 			log.info("Message deleted from queue. Reading next message.");
 			sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 		}
+
 	}
 
 }

@@ -2,27 +2,28 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.util
-* File Name   : EserviceTechnology.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.util
+* File Name   : EserviceTechnology.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
+
 package it.pagopa.interop.probing.eservice.registry.updater.util;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * The Enum EserviceType.
+ * The Enum EserviceTechnology.
  */
 public enum EserviceTechnology {
 
@@ -36,7 +37,7 @@ public enum EserviceTechnology {
 	private String value;
 
 	/**
-	 * Instantiates a new eservice type.
+	 * Instantiates a new eservice technology.
 	 *
 	 * @param value the value
 	 */
@@ -68,7 +69,7 @@ public enum EserviceTechnology {
 	 * From value.
 	 *
 	 * @param value the value
-	 * @return the eservice type
+	 * @return the eservice technology
 	 */
 	@JsonCreator
 	public static EserviceTechnology fromValue(String value) {

@@ -2,20 +2,21 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
-* File Name   : Eservice.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.model
+* File Name   : Eservice.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
+
 package it.pagopa.interop.probing.eservice.registry.updater.model;
 
 import java.io.Serializable;
@@ -48,8 +49,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The persistent class for the eservices database table.
- *
+ * The Class Eservice.
  */
 @Entity
 @Table(name = "eservices", uniqueConstraints = @UniqueConstraint(columnNames = { "eservice_id", "version_id" }))
@@ -60,17 +60,7 @@ import lombok.NoArgsConstructor;
  *
  * @return the java.lang. string
  */
-
-/**
- * To string.
- *
- * @return the java.lang. string
- */
 @Data
-
-/**
- * Instantiates a new eservice.
- */
 
 /**
  * Instantiates a new eservice.

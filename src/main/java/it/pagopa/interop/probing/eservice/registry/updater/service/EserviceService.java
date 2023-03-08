@@ -2,27 +2,26 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 6 Mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.service
-* File Name   : EserviceService.java
+* Created on  : 7 mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.service
+* File Name   : EserviceService.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
+
 package it.pagopa.interop.probing.eservice.registry.updater.service;
 
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
-
-import javax.transaction.Transactional;
 
 import it.pagopa.interop.probing.eservice.registry.updater.dao.EserviceDao;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
@@ -31,18 +30,17 @@ import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
 
 /**
- * The Class EserviceServiceImpl.
+ * The Class EserviceService.
  */
-@Transactional
 public class EserviceService {
 
 	/** The instance. */
 	private static EserviceService instance;
 
 	/**
-	 * Gets the single instance of BucketService.
+	 * Gets the single instance of EserviceService.
 	 *
-	 * @return single instance of BucketService
+	 * @return single instance of EserviceService
 	 */
 	public static EserviceService getInstance() {
 		if (Objects.isNull(instance)) {
