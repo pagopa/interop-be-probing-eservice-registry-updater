@@ -79,16 +79,21 @@ public class ServicesReceiver {
 		ObjectMapper mapper = new ObjectMapper();
 		SqsConfig sqs = SqsConfig.getInstance();
 
-		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices);
+		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
+				.withMaxNumberOfMessages(10);
 		List<Message> sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 
 		while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
-			EserviceDTO service = mapper.readValue(sqsMessages.get(0).getBody(), EserviceDTO.class);
-			EserviceService.getInstance().saveService(service);
-			log.info("Service saved.");
-			sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
-					.withReceiptHandle(sqsMessages.get(0).getReceiptHandle()));
-			log.info("Message deleted from queue. Reading next message.");
+			for (Message message : sqsMessages) {
+				EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
+				EserviceService.getInstance().saveService(service);
+				log.info("Service " + service.getEserviceId() + " with version " + service.getVersionId()
+						+ " has been saved.");
+				sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
+						.withReceiptHandle(message.getReceiptHandle()));
+				log.debug("Message deleted from queue -> Service " + service.getEserviceId() + " with version "
+						+ service.getVersionId() + " Reading next message.");
+			}
 			sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 		}
 

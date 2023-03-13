@@ -51,9 +51,6 @@ public class PropertiesLoader {
 		} catch (IOException e) {
 			log.error("Error during reading properties from file");
 			throw e;
-		} catch (NullPointerException e) {
-			log.error("Error during reading properties from file");
-			throw e;
 		}
 		log.info("Properties loaded successfully");
 	}

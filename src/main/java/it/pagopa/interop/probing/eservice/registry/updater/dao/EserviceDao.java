@@ -2,18 +2,18 @@
 *
 * Copyright 2023 (C) DXC
 *
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.dao
-* File Name   : EserviceDao.java
+* Created on  : 10 Mar 2023
+* Author      : dxc technology
+* Project Name: interop-be-probing-eservice-registry-updater 
+* Package     : it.pagopa.interop.probing.eservice.registry.updater.dao
+* File Name   : EserviceDao.java
 *
 *-----------------------------------------------------------------------------
 * Revision History (Release )
 *-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
+* VERSION     DESCRIPTION OF CHANGE
 *-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
+** --/1.0  |  Initial Create.
 **---------|------------------------------------------------------------------
 ***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.dao;
@@ -34,7 +34,23 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /** The Constant log. */
+
+/** The Constant log. */
+
+/** The Constant log. */
 @Slf4j
+
+/**
+ * Gets the em.
+ *
+ * @return the em
+ */
+
+/**
+ * Gets the em.
+ *
+ * @return the em
+ */
 
 /**
  * Gets the em.
@@ -56,14 +72,14 @@ public class EserviceDao {
 	/** The Constant CONNECTION_PROP_PSW. */
 	private static final String CONNECTION_PROP_PSW = "javax.persistence.jdbc.password";
 
-	/** The Constant AURORA_URL. */
-	private static final String AURORA_URL = "amazon.aurora.url";
+	/** The Constant DB_URL. */
+	private static final String DB_URL = "db.url";
 
-	/** The Constant AURORA_USR. */
-	private static final String AURORA_USR = "amazon.aurora.user";
+	/** The Constant DB_USR. */
+	private static final String DB_USR = "db.user";
 
-	/** The Constant AURORA_PSW. */
-	private static final String AURORA_PSW = "amazon.aurora.password";
+	/** The Constant DB_PSW. */
+	private static final String DB_PSW = "db.password";
 
 	/** The Constant PERSISTENCE_UNIT_NAME. */
 	private static final String PERSISTENCE_UNIT_NAME = "hibernate.persist.unit";
@@ -113,9 +129,9 @@ public class EserviceDao {
 		Map<String, String> result = new HashMap<>();
 		try {
 
-			result.put(CONNECTION_PROP_URL, PropertiesLoader.getInstance().getKey(AURORA_URL));
-			result.put(CONNECTION_PROP_USR, PropertiesLoader.getInstance().getKey(AURORA_USR));
-			result.put(CONNECTION_PROP_PSW, PropertiesLoader.getInstance().getKey(AURORA_PSW));
+			result.put(CONNECTION_PROP_URL, PropertiesLoader.getInstance().getKey(DB_URL));
+			result.put(CONNECTION_PROP_USR, PropertiesLoader.getInstance().getKey(DB_USR));
+			result.put(CONNECTION_PROP_PSW, PropertiesLoader.getInstance().getKey(DB_PSW));
 
 		} catch (IOException e) {
 			log.error("Connect failed. Unable to read properties.");
