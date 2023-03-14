@@ -21,6 +21,7 @@ package it.pagopa.interop.probing.eservice.registry.updater.model;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
@@ -103,11 +104,9 @@ public class Eservice implements Serializable {
 	@Column(name = "eservice_id")
 	private UUID eserviceId;
 
-	/** The polling end time. */
 	@NotNull
-	@Column(name = "polling_end_time", columnDefinition = "TIMESTAMP with time zone")
-	private OffsetDateTime pollingEndTime = OffsetDateTime.of(OffsetDateTime.now().getYear(),
-			OffsetDateTime.now().getMonthValue(), OffsetDateTime.now().getDayOfMonth(), 23, 59, 0, 0, ZoneOffset.UTC);
+	@Column(name = "polling_end_time", columnDefinition = "TIME with time zone")
+	private OffsetTime pollingEndTime = OffsetTime.of(23, 59, 0, 0, ZoneOffset.UTC);
 
 	/** The polling frequency. */
 	@NotNull
@@ -115,11 +114,9 @@ public class Eservice implements Serializable {
 	@Column(name = "polling_frequency", columnDefinition = "integer default 5")
 	private Integer pollingFrequency = 5;
 
-	/** The polling start time. */
 	@NotNull
-	@Column(name = "polling_start_time", columnDefinition = "TIMESTAMP with time zone")
-	private OffsetDateTime pollingStartTime = OffsetDateTime.of(OffsetDateTime.now().getYear(),
-			OffsetDateTime.now().getMonthValue(), OffsetDateTime.now().getDayOfMonth(), 0, 0, 0, 0, ZoneOffset.UTC);
+	@Column(name = "polling_start_time", columnDefinition = "TIME with time zone")
+	private OffsetTime pollingStartTime = OffsetTime.of(0, 0, 0, 0, ZoneOffset.UTC);
 
 	/** The probing enabled. */
 	@NotNull

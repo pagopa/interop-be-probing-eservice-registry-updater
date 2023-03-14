@@ -33,37 +33,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * Gets the producer name.
- *
- * @return the producer name
- */
 @Getter
-
-/**
- * Sets the producer name.
- *
- * @param producerName the new producer name
- */
 @Setter
-
-/**
- * Instantiates a new eservice DTO.
- */
 @NoArgsConstructor
-
-/**
- * Hash code.
- *
- * @return the int
- */
 @EqualsAndHashCode
-
-/**
- * To string.
- *
- * @return the java.lang. string
- */
 @ToString
 public class EserviceDTO {
 

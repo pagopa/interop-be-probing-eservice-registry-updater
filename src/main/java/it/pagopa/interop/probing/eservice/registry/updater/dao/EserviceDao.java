@@ -33,30 +33,8 @@ import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-/** The Constant log. */
 
-/** The Constant log. */
-
-/** The Constant log. */
 @Slf4j
-
-/**
- * Gets the em.
- *
- * @return the em
- */
-
-/**
- * Gets the em.
- *
- * @return the em
- */
-
-/**
- * Gets the em.
- *
- * @return the em
- */
 @Getter
 public class EserviceDao {
 
