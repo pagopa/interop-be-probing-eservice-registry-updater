@@ -1,21 +1,3 @@
-/**************************************************************************
-*
-* Copyright 2023 (C) DXC
-*
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.consumer
-* File Name   : ServicesReceiver.java
-*
-*-----------------------------------------------------------------------------
-* Revision History (Release )
-*-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
-*-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
-**---------|------------------------------------------------------------------
-***************************************************************************/
 package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 
 import java.io.IOException;
@@ -33,22 +15,13 @@ import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 import lombok.extern.slf4j.Slf4j;
 
-/** The Constant log. */
 @Slf4j
 public class ServicesReceiver {
 
-	/** The instance. */
 	private static ServicesReceiver instance;
 
-	/** The Constant SQS. */
 	private static final String SQS = "amazon.sqs.endpoint.services-queue";
 
-	/**
-	 * Gets the single instance of ServicesReceiver.
-	 *
-	 * @return single instance of ServicesReceiver
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	public static ServicesReceiver getInstance() throws IOException {
 		if (Objects.isNull(instance)) {
 			instance = new ServicesReceiver();
@@ -57,23 +30,12 @@ public class ServicesReceiver {
 
 	}
 
-	/** The sqs url services. */
 	private String sqsUrlServices;
 
-	/**
-	 * Instantiates a new services receiver.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	public ServicesReceiver() throws IOException {
 		this.sqsUrlServices = PropertiesLoader.getInstance().getKey(SQS);
 	}
 
-	/**
-	 * Receive string message.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	public void receiveStringMessage() throws IOException {
 
 		ObjectMapper mapper = new ObjectMapper();

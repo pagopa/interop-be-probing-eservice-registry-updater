@@ -1,21 +1,3 @@
-/**************************************************************************
-*
-* Copyright 2023 (C) DXC
-*
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.unit.service
-* File Name   : EserviceServiceTest.java
-*
-*-----------------------------------------------------------------------------
-* Revision History (Release )
-*-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
-*-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
-**---------|------------------------------------------------------------------
-***************************************************************************/
 
 package it.pagopa.interop.probing.eservice.registry.updater.unit.service;
 
@@ -39,22 +21,12 @@ import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 
-/**
- * The Class EserviceServiceTest.
- */
 class EserviceServiceTest {
 
-	/** The eservice dao. */
 	EserviceDao eserviceDao = mock(EserviceDao.class);
 
-	/** The e service DTO. */
 	EserviceDTO eServiceDTO;
 
-	/**
-	 * Setup.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@BeforeEach
 	void setup() throws IOException {
 		eServiceDTO = new EserviceDTO();
@@ -69,11 +41,6 @@ class EserviceServiceTest {
 
 	}
 
-	/**
-	 * Test save eservice when doesnt exist given valid E service then save entity and return id.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@Test
 	@DisplayName("The saveEservice method is executed if the Eservice doesn't exist")
 	void testSaveEservice_whenDoesntExist_GivenValidEService_thenSaveEntityAndReturnId() throws IOException {
@@ -92,13 +59,6 @@ class EserviceServiceTest {
 		}
 	}
 
-	/**
-	 * Gets the eservice entity.
-	 *
-	 * @param eserviceId the eservice id
-	 * @param versionId the version id
-	 * @return the eservice entity
-	 */
 	private Eservice getEserviceEntity(String eserviceId, String versionId) {
 		Eservice serviceEntity = new Eservice();
 		serviceEntity.setId(10L);
