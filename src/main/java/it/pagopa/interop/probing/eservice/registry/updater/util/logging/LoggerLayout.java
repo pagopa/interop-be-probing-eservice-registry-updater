@@ -21,7 +21,7 @@ public class LoggerLayout extends LayoutBase<ILoggingEvent> {
 		sbuf.append(event.getLoggerName());
 		sbuf.append("]");
 		try {
-			sbuf.append(" - [OID=");
+			sbuf.append(" - [CID=");
 			MDC.put(ProjectConstants.TRACE_ID_PLACEHOLDER, UUID.randomUUID().toString().toLowerCase());
 			sbuf.append(MDC.get(ProjectConstants.TRACE_ID_PLACEHOLDER));
 			sbuf.append("] - ");
