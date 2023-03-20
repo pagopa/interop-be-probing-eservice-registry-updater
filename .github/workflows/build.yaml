@@ -38,4 +38,4 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{TAG}}
+            ghcr.io/${{ github.repository }}:${{ env.TAG }}
