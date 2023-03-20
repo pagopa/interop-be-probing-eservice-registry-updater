@@ -73,8 +73,9 @@ public class ServicesReceiver {
 	 * Receive string message.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException 
 	 */
-	public void receiveStringMessage() throws IOException {
+	public void receiveStringMessage() throws IOException, InterruptedException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		SqsConfig sqs = SqsConfig.getInstance();
@@ -85,6 +86,7 @@ public class ServicesReceiver {
 
 		while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
 			for (Message message : sqsMessages) {
+				Thread.sleep(40000);
 				EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 				EserviceService.getInstance().saveService(service);
 				log.info("Service " + service.getEserviceId() + " with version " + service.getVersionId()
