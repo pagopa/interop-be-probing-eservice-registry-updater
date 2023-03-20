@@ -33,8 +33,9 @@ public class InteropProbingApplication {
 	 *
 	 * @param args the arguments
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		ServicesReceiver.getInstance().receiveStringMessage();
 	}
 }

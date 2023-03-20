@@ -84,10 +84,11 @@ class ServicesReceiverTest {
 	 * Test receive string message when read message then save message.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws InterruptedException 
 	 */
 	@Test
 	@DisplayName("The method reads message from queue and saves to db")
-	void testReceiveStringMessage_whenReadMessage_thenSaveMessage() throws IOException {
+	void testReceiveStringMessage_whenReadMessage_thenSaveMessage() throws IOException, InterruptedException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		Message message = new Message();
