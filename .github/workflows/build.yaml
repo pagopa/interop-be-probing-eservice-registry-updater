@@ -21,7 +21,7 @@ jobs:
       - name: normalize branch name for tagging
         run: |
           BRANCH=$GITHUB_REF_NAME
-          TAG="${BRANCH////-}"
+          export TAG="${BRANCH////-}"
           echo $TAG
 
       - name: Log in to the Container registry
