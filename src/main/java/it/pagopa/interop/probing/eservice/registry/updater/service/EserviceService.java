@@ -28,10 +28,12 @@ import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Class EserviceService.
  */
+@Slf4j
 public class EserviceService {
 
 	/** The instance. */
@@ -60,7 +62,7 @@ public class EserviceService {
 
 		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
 		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
-
+		log.info("saveService FIND");
 		Eservice eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
 		if (Objects.isNull(eservice)) {
 			eservice = new Eservice();
@@ -72,7 +74,7 @@ public class EserviceService {
 		eservice.setProducerName(eserviceNew.getProducerName());
 		eservice.setTechnology(EserviceTechnology.valueOf(eserviceNew.getTechnology()));
 		eservice.setBasePath(eserviceNew.getBasePath());
-
+		log.info("saveService SAVE");
 		return EserviceDao.getInstance().save(eservice);
 	}
 

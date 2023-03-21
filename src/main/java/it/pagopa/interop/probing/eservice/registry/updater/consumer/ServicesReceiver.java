@@ -76,17 +76,16 @@ public class ServicesReceiver {
 	 * @throws InterruptedException 
 	 */
 	public void receiveStringMessage() throws IOException, InterruptedException {
-
+		log.info("receiveStringMessage START");
 		ObjectMapper mapper = new ObjectMapper();
 		SqsConfig sqs = SqsConfig.getInstance();
-
+		log.info("subito prima receive");
 		ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
 				.withMaxNumberOfMessages(10);
 		List<Message> sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
-
+		log.info("subito dopo receive");
 		while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
 			for (Message message : sqsMessages) {
-				Thread.sleep(40000);
 				EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 				EserviceService.getInstance().saveService(service);
 				log.info("Service " + service.getEserviceId() + " with version " + service.getVersionId()
@@ -98,7 +97,7 @@ public class ServicesReceiver {
 			}
 			sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 		}
-
+		log.info("receiveStringMessage END");
 	}
 
 }
