@@ -1,21 +1,3 @@
-/**************************************************************************
-*
-* Copyright 2023 (C) DXC
-*
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.unit.dao
-* File Name   : EserviceDaoTest.java
-*
-*-----------------------------------------------------------------------------
-* Revision History (Release )
-*-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
-*-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
-**---------|------------------------------------------------------------------
-***************************************************************************/
 
 package it.pagopa.interop.probing.eservice.registry.updater.unit.dao;
 
@@ -42,49 +24,30 @@ import it.pagopa.interop.probing.eservice.registry.updater.dao.EserviceDao;
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 
-/**
- * The Class EserviceDaoTest.
- */
 class EserviceDaoTest {
 
-	/** The repo. */
 	static EserviceDao repo;
 
-	/** The entity manager. */
 	static EntityManager entityManager;
 
-	/** The version UUID. */
 	static UUID versionUUID;
 
-	/** The service UUID. */
 	static UUID serviceUUID;
 
-	/** The version UUID 2. */
 	static UUID versionUUID2;
 
-	/** The service UUID 2. */
 	static UUID serviceUUID2;
 
-	/** The version UUID 3. */
 	static UUID versionUUID3;
 
-	/** The service UUID 3. */
 	static UUID serviceUUID3;
 
-	/** The Constant CONNECTION_PROP_URL. */
 	private static final String CONNECTION_PROP_URL = "hibernate.connection.url";
 
-	/** The Constant CONNECTION_PROP_USR. */
 	private static final String CONNECTION_PROP_USR = "hibernate.connection.username";
 
-	/** The q. */
 	TypedQuery<Eservice> q;
 
-	/**
-	 * Setup.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@BeforeAll
 	public static void setup() throws IOException {
 		Map<String, String> result = new HashMap<>();
@@ -100,17 +63,11 @@ class EserviceDaoTest {
 		serviceUUID3 = UUID.randomUUID();
 	}
 
-	/**
-	 * Close.
-	 */
 	@AfterAll
 	public static void close() {
 		entityManager.close();
 	}
 
-	/**
-	 * Test eservice entity when eservice data not provided throws exception.
-	 */
 	@Test
 	@DisplayName("The save method is executed if the Eservice not exists")
 	void testEserviceEntity_whenEserviceDataNotProvided_throwsException() {
@@ -119,11 +76,6 @@ class EserviceDaoTest {
 				"e-service should not be saved when missing required data");
 	}
 
-	/**
-	 * Test save eservice when exists given valid eservice id and version id then updates.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@Test
 	@DisplayName("The update method is executed if the Eservice exists")
 	void testSaveEservice_whenExists_GivenValidEserviceIdAndVersionId_thenUpdates() throws IOException {
@@ -138,11 +90,6 @@ class EserviceDaoTest {
 		assertEquals(oldId, newId);
 	}
 
-	/**
-	 * Test find eservice when exists given valid E service id and version id then return entity.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@Test
 	@DisplayName("The findEservice method is executed if the Eservice exists")
 	void testFindEservice_whenExists_GivenValidEServiceIdAndVersionId_thenReturnEntity() throws IOException {
@@ -160,11 +107,6 @@ class EserviceDaoTest {
 		assertNotNull(eservice);
 	}
 
-	/**
-	 * Test find eservice when not exists given valid E service id and version id then return null.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@Test
 	@DisplayName("The findEservice method is executed if the Eservice not exists")
 	void testFindEservice_whenNotExists_GivenValidEServiceIdAndVersionId_thenReturnNull() throws IOException {
@@ -182,13 +124,6 @@ class EserviceDaoTest {
 		assertNull(eservice);
 	}
 
-	/**
-	 * Gets the eservice entity.
-	 *
-	 * @param eserviceId the eservice id
-	 * @param versionId the version id
-	 * @return the eservice entity
-	 */
 	private Eservice getEserviceEntity(UUID eserviceId, UUID versionId) {
 		Eservice serviceEntity = new Eservice();
 		serviceEntity.setState(EserviceState.INACTIVE);

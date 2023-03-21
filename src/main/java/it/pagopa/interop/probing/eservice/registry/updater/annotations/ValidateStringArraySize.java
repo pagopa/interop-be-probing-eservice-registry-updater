@@ -1,21 +1,4 @@
-/**************************************************************************
-*
-* Copyright 2023 (C) DXC
-*
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.annotations
-* File Name   : ValidateStringArraySize.java
-*
-*-----------------------------------------------------------------------------
-* Revision History (Release )
-*-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
-*-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
-**---------|------------------------------------------------------------------
-***************************************************************************/
+
 package it.pagopa.interop.probing.eservice.registry.updater.annotations;
 
 import java.lang.annotation.ElementType;
@@ -28,39 +11,16 @@ import javax.validation.Payload;
 
 import it.pagopa.interop.probing.eservice.registry.updater.annotations.validator.StringArrayValidator;
 
-/**
- * The Interface ValidateStringArraySize.
- */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StringArrayValidator.class)
 public @interface ValidateStringArraySize {
 
-	/**
-	 * Max size.
-	 *
-	 * @return the int
-	 */
 	int maxSize();
 
-	/**
-	 * Message.
-	 *
-	 * @return the string
-	 */
 	String message() default "One of the strings of the array is more than {maxSize} characters long";
 
-	/**
-	 * Groups.
-	 *
-	 * @return the class[]
-	 */
 	Class<?>[] groups() default {};
 
-	/**
-	 * Payload.
-	 *
-	 * @return the class<? extends payload>[]
-	 */
 	Class<? extends Payload>[] payload() default {};
 }

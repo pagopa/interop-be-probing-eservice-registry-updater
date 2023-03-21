@@ -75,7 +75,7 @@ public class ServicesReceiver {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws InterruptedException 
 	 */
-	public void receiveStringMessage() throws IOException, InterruptedException {
+	public void receiveStringMessage() throws IOException {
 		log.info("receiveStringMessage START");
 		ObjectMapper mapper = new ObjectMapper();
 		SqsConfig sqs = SqsConfig.getInstance();
