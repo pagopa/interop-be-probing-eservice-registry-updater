@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+
 import it.pagopa.interop.probing.eservice.registry.updater.dao.EserviceDao;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.model.Eservice;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 public class EserviceService {
@@ -25,12 +26,12 @@ public class EserviceService {
 		return instance;
 	}
 
-	public Long saveService(EserviceDTO eserviceNew) throws IOException {
+	public Long saveService(EserviceDTO eserviceNew, EntityManager em) throws IOException {
 
 		UUID eserviceId = UUID.fromString(eserviceNew.getEserviceId());
 		UUID versionId = UUID.fromString(eserviceNew.getVersionId());
 		log.info("saveService FIND");
-		Eservice eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId);
+		Eservice eservice = EserviceDao.getInstance().findByEserviceIdAndVersionId(eserviceId, versionId, em);
 		if (Objects.isNull(eservice)) {
 			eservice = new Eservice();
 			eservice.setVersionId(versionId);
@@ -42,7 +43,7 @@ public class EserviceService {
 		eservice.setTechnology(EserviceTechnology.valueOf(eserviceNew.getTechnology()));
 		eservice.setBasePath(eserviceNew.getBasePath());
 		log.info("saveService SAVE");
-		return EserviceDao.getInstance().save(eservice);
+		return EserviceDao.getInstance().save(eservice, em);
 	}
 
 }

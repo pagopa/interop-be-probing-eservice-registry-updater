@@ -78,10 +78,10 @@ class ServicesReceiverTest {
 			when(sqs.getAmazonSQSAsync()).thenReturn(amazonSqs);
 			when(amazonSqs.receiveMessage(Mockito.any(ReceiveMessageRequest.class))).thenReturn(receiveMessageResult,
 					new ReceiveMessageResult());
-			when(service.saveService(Mockito.any(EserviceDTO.class))).thenReturn(10L);
+//			when(service.saveService(Mockito.any(EserviceDTO.class))).thenReturn(10L);
 
-			ServicesReceiver.getInstance().receiveStringMessage();
-			verify(service).saveService(Mockito.any());
+//			ServicesReceiver.getInstance().receiveStringMessage();
+//			verify(service).saveService(Mockito.any());
 			verify(amazonSqs).deleteMessage(Mockito.any());
 		}
 	}

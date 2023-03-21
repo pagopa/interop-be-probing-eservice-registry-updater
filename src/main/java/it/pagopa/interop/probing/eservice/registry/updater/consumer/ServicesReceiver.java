@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.EntityManager;
+
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
@@ -75,7 +77,7 @@ public class ServicesReceiver {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws InterruptedException 
 	 */
-	public void receiveStringMessage() throws IOException {
+	public void receiveStringMessage(EntityManager em) throws IOException {
 		log.info("receiveStringMessage START");
 		ObjectMapper mapper = new ObjectMapper();
 		SqsConfig sqs = SqsConfig.getInstance();
@@ -87,7 +89,7 @@ public class ServicesReceiver {
 		while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
 			for (Message message : sqsMessages) {
 				EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
-				EserviceService.getInstance().saveService(service);
+				EserviceService.getInstance().saveService(service,em);
 				log.info("Service " + service.getEserviceId() + " with version " + service.getVersionId()
 						+ " has been saved.");
 				sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)

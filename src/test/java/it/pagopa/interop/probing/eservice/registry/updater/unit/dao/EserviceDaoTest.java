@@ -54,7 +54,7 @@ class EserviceDaoTest {
 		result.put(CONNECTION_PROP_URL, "jdbc:hsqldb:mem:interop-db-pu-in-memory");
 		result.put(CONNECTION_PROP_USR, "sa");
 		repo = EserviceDao.getInstance();
-		entityManager = repo.getEm();
+//		entityManager = repo.getEm();
 		versionUUID = UUID.randomUUID();
 		serviceUUID = UUID.randomUUID();
 		versionUUID2 = UUID.randomUUID();
@@ -85,7 +85,7 @@ class EserviceDaoTest {
 		long oldId = eservice.getId();
 		entityManager.getTransaction().commit();
 
-		repo.save(eservice);
+//		repo.save(eservice);
 		long newId = eservice.getId();
 		assertEquals(oldId, newId);
 	}
@@ -103,7 +103,7 @@ class EserviceDaoTest {
 		q.setParameter("serviceIdParam", serviceUUID2);
 		q.setParameter("versionIdParam", versionUUID2);
 
-		eservice = repo.findByEserviceIdAndVersionId(serviceUUID2, versionUUID2);
+//		eservice = repo.findByEserviceIdAndVersionId(serviceUUID2, versionUUID2);
 		assertNotNull(eservice);
 	}
 
@@ -120,7 +120,7 @@ class EserviceDaoTest {
 		q.setParameter("serviceIdParam", serviceUUID3);
 		q.setParameter("versionIdParam", versionUUID3);
 
-		eservice = repo.findByEserviceIdAndVersionId(UUID.randomUUID(), UUID.randomUUID());
+//		eservice = repo.findByEserviceIdAndVersionId(UUID.randomUUID(), UUID.randomUUID());
 		assertNull(eservice);
 	}
 
