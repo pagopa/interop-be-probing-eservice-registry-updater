@@ -1,21 +1,3 @@
-/**************************************************************************
-*
-* Copyright 2023 (C) DXC
-*
-* Created on  : 7 mar 2023
-* Author      : dxc technology
-* Project Name: interop-be-probing-eservice-registry-updater 
-* Package     : it.pagopa.interop.probing.eservice.registry.updater.unit.consumer
-* File Name   : ServicesReceiverTest.java
-*
-*-----------------------------------------------------------------------------
-* Revision History (Release )
-*-----------------------------------------------------------------------------
-* VERSION     DESCRIPTION OF CHANGE
-*-----------------------------------------------------------------------------
-** --/1.0  |  Initial Create.
-**---------|------------------------------------------------------------------
-***************************************************************************/
 
 package it.pagopa.interop.probing.eservice.registry.updater.unit.consumer;
 
@@ -45,28 +27,16 @@ import it.pagopa.interop.probing.eservice.registry.updater.consumer.ServicesRece
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
 
-/**
- * The Class ServicesReceiverTest.
- */
 class ServicesReceiverTest {
 
-	/** The sqs. */
 	SqsConfig sqs = mock(SqsConfig.class);
 
-	/** The amazon sqs. */
 	AmazonSQSAsync amazonSqs = mock(AmazonSQSAsync.class);
 
-	/** The service. */
 	EserviceService service = mock(EserviceService.class);
 
-	/** The e service DTO. */
 	private EserviceDTO eServiceDTO;
 
-	/**
-	 * Setup.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@BeforeEach
 	void setup() throws IOException {
 		eServiceDTO = new EserviceDTO();
@@ -80,11 +50,6 @@ class ServicesReceiverTest {
 		eServiceDTO.setBasePath(basePath);
 	}
 
-	/**
-	 * Test receive string message when read message then save message.
-	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
 	@Test
 	@DisplayName("The method reads message from queue and saves to db")
 	void testReceiveStringMessage_whenReadMessage_thenSaveMessage() throws IOException {
