@@ -92,7 +92,7 @@ public class ServicesReceiver {
 						+ " has been saved.");
 				sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
 						.withReceiptHandle(message.getReceiptHandle()));
-				log.debug("Message deleted from queue -> Service " + service.getEserviceId() + " with version "
+				log.info("Message deleted from queue -> Service " + service.getEserviceId() + " with version "
 						+ service.getVersionId() + " Reading next message.");
 			}
 			sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
