@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: interop-be-probing-eservice-registry-updater
+  labels:
+    app: interop-be-probing-eservice-registry-updater
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: interop-be-probing-eservice-registry-updater
+        spec:
+          serviceAccountName: interop-be-probing-eservice-registry-updater
+          containers:
+            - name: interop-be-probing-eservice-registry-updater
+              image: ghcr.io/pagopa/interop-be-probing-eservice-registry-updater:feature-dev-environment-test
+              imagePullPolicy: Always
+              env:
+                - name: SQS_ENDPOINT_SERVICES_QUEUE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: interop-be-probing-eservice-registry-updater
+                      key: SQS_ENDPOINT_SERVICES_QUEUE
+                - name: JDBC_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: interop-be-probing-eservice-registry-updater
+                      key: JDBC_URL
+                - name: PERSIST_UNIT_NAME
+                  valueFrom:
+                    configMapKeyRef:
+                      name: interop-be-probing-eservice-registry-updater
+                      key: PERSIST_UNIT_NAME                   
+                - name: JDBC_USERNAME 
+                  valueFrom:
+                    secretKeyRef:
+                      name: interop-be-probing-api-aurora-user-credentials
+                      key: DATABASE_USERNAME
+                - name: JDBC_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: interop-be-probing-api-aurora-user-credentials
+                      key: DATABASE_PASSWORD  
+          restartPolicy: Never

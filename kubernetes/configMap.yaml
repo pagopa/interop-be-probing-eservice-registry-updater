@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  SQS_ENDPOINT_SERVICES_QUEUE: https://sqs.eu-central-1.amazonaws.com/774300547186/eservice_registry_queue.fifo
+  JDBC_URL: jdbc:postgresql://interop-probing-operational-database-dev.cluster-caudw4yuwazj.eu-central-1.rds.amazonaws.com:5432/interop_probing_operational?currentSchema=interop_probing_operational
+  PERSIST_UNIT_NAME: interop-db-pu
+kind: ConfigMap
+metadata:
+  name: interop-be-probing-eservice-registry-updater
