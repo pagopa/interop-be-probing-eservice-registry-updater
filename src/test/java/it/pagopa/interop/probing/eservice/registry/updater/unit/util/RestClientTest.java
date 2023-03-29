@@ -46,6 +46,7 @@ class RestClientTest {
 		eServiceDTO.setTechnology(EserviceTechnology.REST.toString());
 		String[] basePath = { "basepath1", "basepath2" };
 		eServiceDTO.setBasePath(basePath);
+		eServiceDTO.setVersionNumber("1");
 	}
 
 	@Test
@@ -58,7 +59,7 @@ class RestClientTest {
 			Mockito.when(client.target(Mockito.anyString())).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
-			Mockito.when(invocationBuilder.put(Mockito.any())).thenReturn(resp);
+			Mockito.when(invocationBuilder.post(Mockito.any())).thenReturn(resp);
 			Mockito.when(resp.getStatus()).thenReturn(200);
 			RestClient.getInstance().saveEservice(eServiceDTO, client);
 			verify(resp).readEntity(Long.class);
@@ -75,7 +76,7 @@ class RestClientTest {
 			Mockito.when(client.target(Mockito.anyString())).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
-			Mockito.when(invocationBuilder.put(Mockito.any())).thenReturn(resp);
+			Mockito.when(invocationBuilder.post(Mockito.any())).thenReturn(resp);
 			Mockito.when(resp.getStatus()).thenReturn(500);
 			RestClient restClient = RestClient.getInstance();
 			assertThrows(IOException.class, () -> restClient.saveEservice(eServiceDTO, client),
@@ -94,7 +95,7 @@ class RestClientTest {
 			Mockito.when(webTarget.path("saveEservice")).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
-			Mockito.when(invocationBuilder.put(Mockito.any())).thenThrow(new ProcessingException("Connection refused"));
+			Mockito.when(invocationBuilder.post(Mockito.any())).thenThrow(new ProcessingException("Connection refused"));
 			RestClient restClient = RestClient.getInstance();
 			assertThrows(ProcessingException.class, () -> restClient.saveEservice(eServiceDTO, client));
 		}

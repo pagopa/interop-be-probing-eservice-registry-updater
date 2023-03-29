@@ -31,13 +31,14 @@ class EserviceDTOTest {
 		eServiceDTO.setTechnology(EserviceTechnology.REST.toString());
 		String[] basePath = { "basePath1", "basePath2" };
 		eServiceDTO.setBasePath(basePath);
+		eServiceDTO.setVersionNumber("1");
 
 	}
 
 	@Test
 	@DisplayName("Test the utility toString of lombok.")
 	void testToString_whenGivenValidEServiceDto_thenValidEquals() throws IOException {
-		String serviceString = "EserviceDTO(name=Service Name, eserviceId=0b37ac73-cbd8-47f1-a14c-19bcc8f8f8e7, versionId=226574b8-82a1-4844-9484-55fffc9c15ef, technology=REST, state=ACTIVE, basePath=[basePath1, basePath2], producerName=Producer Name)";
+		String serviceString = "EserviceDTO(name=Service Name, eserviceId=0b37ac73-cbd8-47f1-a14c-19bcc8f8f8e7, versionId=226574b8-82a1-4844-9484-55fffc9c15ef, technology=REST, state=ONLINE, basePath=[basePath1, basePath2], producerName=Producer Name, versionNumber=1)";
 		assertEquals(eServiceDTO.toString(), serviceString);
 	}
 
@@ -49,10 +50,11 @@ class EserviceDTOTest {
 		copy.setVersionId("226574b8-82a1-4844-9484-55fffc9c15ef");
 		copy.setName("Service Name");
 		copy.setProducerName("Producer Name");
-		copy.setState("ACTIVE");
+		copy.setState("ONLINE");
 		copy.setTechnology("REST");
 		String[] basePath = { "basePath1", "basePath2" };
 		copy.setBasePath(basePath);
+		copy.setVersionNumber("1");
 		assertEquals(true, eServiceDTO.equals(copy));
 		assertEquals(true, eServiceDTO.hashCode() == copy.hashCode());
 	}

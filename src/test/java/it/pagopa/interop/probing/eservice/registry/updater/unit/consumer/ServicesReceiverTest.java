@@ -49,10 +49,11 @@ class ServicesReceiverTest {
 		eServiceDTO.setVersionId("226574b8-82a1-4844-9484-55fffc9c15ef");
 		eServiceDTO.setName("Service Name");
 		eServiceDTO.setProducerName("Producer Name");
-		eServiceDTO.setState(EserviceState.fromValue("ACTIVE").getValue());
+		eServiceDTO.setState(EserviceState.fromValue("ONLINE").getValue());
 		eServiceDTO.setTechnology(EserviceTechnology.fromValue("REST").getValue());
 		String[] basePath = { "basePath1", "basePath2" };
 		eServiceDTO.setBasePath(basePath);
+		eServiceDTO.setVersionNumber("1");
 	}
 
 	@Test

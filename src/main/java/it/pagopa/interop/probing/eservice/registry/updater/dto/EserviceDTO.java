@@ -50,5 +50,9 @@ public class EserviceDTO {
 	@NotBlank(message = "must not be blank")
 	@Size(max = 255, message = "must not be longer than 255 chars")
 	private String producerName;
+	
+	@NotBlank(message = "must not be blank")
+	@Size(max = 255, message = "must not be longer than 255 chars")
+	private String versionNumber;
 
 }

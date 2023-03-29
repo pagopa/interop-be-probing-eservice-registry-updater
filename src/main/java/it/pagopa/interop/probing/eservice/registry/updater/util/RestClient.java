@@ -26,7 +26,7 @@ public class RestClient {
 		return instance;
 	}
 
-	private static final String ESERVICE_OPERATION_URL = "eservice.operation.url";
+	private static final String ESERVICE_OPERATION_URL = "api.operations.baseUrl";
 
 	private String eserviceOperationUrl;
 
@@ -42,7 +42,7 @@ public class RestClient {
 		try {
 			log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
 					+ " with version " + eservice.getVersionId());
-			Response response = invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
+			Response response = invocationBuilder.post(Entity.entity(eservice, MediaType.APPLICATION_JSON));
 			if (response.getStatus() == 200) {
 				return response.readEntity(Long.class);
 			} else {
