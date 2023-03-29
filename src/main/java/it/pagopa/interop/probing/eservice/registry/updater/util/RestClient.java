@@ -40,8 +40,8 @@ public class RestClient {
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
 		try {
-			log.info("Call to " + eserviceOperationUrl + " for service " + eservice.getEserviceId() + " with version "
-					+ eservice.getVersionId());
+			log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
+					+ " with version " + eservice.getVersionId());
 			Response response = invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
 			if (response.getStatus() == 200) {
 				return response.readEntity(Long.class);
@@ -52,7 +52,7 @@ public class RestClient {
 			}
 		} catch (ProcessingException e) {
 			log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
-			+ " has not been saved.", e.getMessage());
+					+ " has not been saved.", e.getMessage());
 			throw e;
 		}
 
