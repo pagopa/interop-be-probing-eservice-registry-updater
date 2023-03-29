@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
 
 @ExtendWith(MockitoExtension.class)
 class EserviceDTOTest {
@@ -25,8 +27,8 @@ class EserviceDTOTest {
 		eServiceDTO.setVersionId("226574b8-82a1-4844-9484-55fffc9c15ef");
 		eServiceDTO.setName("Service Name");
 		eServiceDTO.setProducerName("Producer Name");
-		eServiceDTO.setState("ACTIVE");
-		eServiceDTO.setTechnology("REST");
+		eServiceDTO.setState(EserviceState.ONLINE.toString());
+		eServiceDTO.setTechnology(EserviceTechnology.REST.toString());
 		String[] basePath = { "basePath1", "basePath2" };
 		eServiceDTO.setBasePath(basePath);
 

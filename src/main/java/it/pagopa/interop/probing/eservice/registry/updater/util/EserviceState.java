@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum EserviceState {
 
-	ACTIVE("ACTIVE"),
+	ONLINE("ONLINE"),
 
-	INACTIVE("INACTIVE");
+	OFFLINE("OFFLINE"),
+
+	N_D("N/D");
 
 	private String value;
 

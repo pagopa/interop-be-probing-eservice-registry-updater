@@ -25,7 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs.SqsConfig;
 import it.pagopa.interop.probing.eservice.registry.updater.consumer.ServicesReceiver;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
-import it.pagopa.interop.probing.eservice.registry.updater.service.EserviceService;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
+import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
+import it.pagopa.interop.probing.eservice.registry.updater.util.RestClient;
+import jakarta.ws.rs.client.Client;
 
 class ServicesReceiverTest {
 
@@ -33,7 +36,9 @@ class ServicesReceiverTest {
 
 	AmazonSQSAsync amazonSqs = mock(AmazonSQSAsync.class);
 
-	EserviceService service = mock(EserviceService.class);
+	RestClient restClient = mock(RestClient.class);
+
+	Client client = mock(Client.class);
 
 	private EserviceDTO eServiceDTO;
 
@@ -44,8 +49,8 @@ class ServicesReceiverTest {
 		eServiceDTO.setVersionId("226574b8-82a1-4844-9484-55fffc9c15ef");
 		eServiceDTO.setName("Service Name");
 		eServiceDTO.setProducerName("Producer Name");
-		eServiceDTO.setState("ACTIVE");
-		eServiceDTO.setTechnology("REST");
+		eServiceDTO.setState(EserviceState.fromValue("ACTIVE").getValue());
+		eServiceDTO.setTechnology(EserviceTechnology.fromValue("REST").getValue());
 		String[] basePath = { "basePath1", "basePath2" };
 		eServiceDTO.setBasePath(basePath);
 	}
@@ -64,18 +69,18 @@ class ServicesReceiverTest {
 		receiveMessageResult.setMessages(messages);
 
 		try (MockedStatic<SqsConfig> sqsConfigMock = mockStatic(SqsConfig.class);
-				MockedStatic<EserviceService> serviceMock = mockStatic(EserviceService.class)) {
+				MockedStatic<RestClient> restMock = mockStatic(RestClient.class)) {
 
 			sqsConfigMock.when(SqsConfig::getInstance).thenReturn(sqs);
-			serviceMock.when(EserviceService::getInstance).thenReturn(service);
+			restMock.when(RestClient::getInstance).thenReturn(restClient);
 
 			when(sqs.getAmazonSQSAsync()).thenReturn(amazonSqs);
 			when(amazonSqs.receiveMessage(Mockito.any(ReceiveMessageRequest.class))).thenReturn(receiveMessageResult,
 					new ReceiveMessageResult());
-			when(service.saveService(Mockito.any(EserviceDTO.class))).thenReturn(10L);
+			when(restClient.saveEservice(Mockito.any(EserviceDTO.class), Mockito.any(Client.class))).thenReturn(10L);
 
 			ServicesReceiver.getInstance().receiveStringMessage();
-			verify(service).saveService(Mockito.any());
+			verify(restClient).saveEservice(Mockito.any(EserviceDTO.class), Mockito.any(Client.class));
 			verify(amazonSqs).deleteMessage(Mockito.any());
 		}
 	}

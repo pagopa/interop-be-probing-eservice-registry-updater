@@ -55,6 +55,10 @@
 	<logger name="org.hsqldb" level="WARN" />
 	<logger name="org.hibernate" level="WARN" />
 	<logger name="javax.xml.bind" level="WARN" />
+	<logger name="org.glassfish.jersey.core" level="WARN" />
+	<logger name="org.glassfish.jersey.inject" level="WARN" />
+	<logger name="org.glassfish.jersey.media" level="WARN" />
+	<logger name="jakarta.activation" level="WARN" />
 
 	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="INFO" />
 
