@@ -10,6 +10,8 @@ import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateE
 import it.pagopa.interop.probing.eservice.registry.updater.annotations.ValidateStringArraySize;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceState;
 import it.pagopa.interop.probing.eservice.registry.updater.util.EserviceTechnology;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 public class EserviceDTO {
 
 	@NotBlank(message = "must not be blank")
@@ -50,7 +54,7 @@ public class EserviceDTO {
 	@NotBlank(message = "must not be blank")
 	@Size(max = 255, message = "must not be longer than 255 chars")
 	private String producerName;
-	
+
 	@NotBlank(message = "must not be blank")
 	@Size(max = 255, message = "must not be longer than 255 chars")
 	private String versionNumber;

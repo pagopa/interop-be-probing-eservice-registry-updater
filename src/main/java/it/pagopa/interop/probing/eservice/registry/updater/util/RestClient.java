@@ -30,7 +30,7 @@ public class RestClient {
 
 	private String eserviceOperationUrl;
 
-	public RestClient() throws IOException {
+	private RestClient() throws IOException {
 		this.eserviceOperationUrl = PropertiesLoader.getInstance().getKey(ESERVICE_OPERATION_URL);
 	}
 
@@ -46,9 +46,8 @@ public class RestClient {
 			if (response.getStatus() == 200) {
 				return response.readEntity(Long.class);
 			} else {
-				log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
+				throw new IOException("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
 						+ " has not been saved.");
-				throw new IOException();
 			}
 		} catch (ProcessingException e) {
 			log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()

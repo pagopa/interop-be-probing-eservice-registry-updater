@@ -40,9 +40,7 @@ public class ServicesReceiver {
 
 	public void receiveStringMessage() throws IOException {
 
-		Client client = ClientBuilder.newClient();
-
-		try {
+		try (Client client = ClientBuilder.newClient()) {
 			ObjectMapper mapper = new ObjectMapper();
 			SqsConfig sqs = SqsConfig.getInstance();
 
@@ -63,10 +61,7 @@ public class ServicesReceiver {
 				}
 				sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 			}
-		} finally {
-			client.close();
 		}
-
 	}
 
 }
