@@ -41,20 +41,15 @@
 		<appender-ref ref="STDERR" />
 	</appender>
 
-	<logger name="io.awspring.cloud" level="WARN" />
 	<logger name="com.amazonaws" level="WARN" />
-	<logger name="org.hibernate" level="WARN" />
-	<logger name="org.postgresql" level="WARN" />
-	<logger name="javax.persistence" level="WARN" />
 	<logger name="javax.validation" level="WARN" />
 	<logger name="org.junit.jupiter" level="WARN" />
 	<logger name="org.mockito" level="WARN" />
 	<logger name="org.projectlombok" level="WARN" />
 	<logger name="org.slf4j" level="WARN" />
+	<logger name="ch.qos.logbacks" level="WARN" />
 	<logger name="org.apache.commons" level="WARN" />
-	<logger name="org.hsqldb" level="WARN" />
-	<logger name="org.hibernate" level="WARN" />
-	<logger name="javax.xml.bind" level="WARN" />
+	<logger name="com.typesafe" level="WARN" />
 	<logger name="org.glassfish.jersey.core" level="WARN" />
 	<logger name="org.glassfish.jersey.inject" level="WARN" />
 	<logger name="org.glassfish.jersey.media" level="WARN" />
