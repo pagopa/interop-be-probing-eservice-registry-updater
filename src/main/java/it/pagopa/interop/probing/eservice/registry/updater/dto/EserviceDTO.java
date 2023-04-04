@@ -1,6 +1,7 @@
 
 package it.pagopa.interop.probing.eservice.registry.updater.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -51,8 +52,8 @@ public class EserviceDTO {
 	@Size(max = 255, message = "must not be longer than 255 chars")
 	private String producerName;
 
-	@NotBlank(message = "must not be blank")
-	@Size(max = 255, message = "must not be longer than 255 chars")
-	private String versionNumber;
+	@NotNull(message = "must not be null")
+	@Min(value=1, message="must be at least 1")
+	private Integer versionNumber;
 
 }
