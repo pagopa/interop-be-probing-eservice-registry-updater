@@ -49,7 +49,7 @@ class ServicesReceiverTest {
 		eServiceDTO = EserviceDTO.builder().eserviceId(UUID.fromString("0b37ac73-cbd8-47f1-a14c-19bcc8f8f8e7"))
 				.versionId(UUID.fromString("226574b8-82a1-4844-9484-55fffc9c15ef")).name("Service Name").producerName("Producer Name")
 				.state(EserviceState.ACTIVE)
-				.technology(EserviceTechnology.REST).basePath(basePath).versionNumber("1")
+				.technology(EserviceTechnology.REST).basePath(basePath).versionNumber(1)
 				.build();
 	}
 
