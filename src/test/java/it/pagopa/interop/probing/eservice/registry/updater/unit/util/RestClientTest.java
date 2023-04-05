@@ -53,6 +53,7 @@ class RestClientTest {
 			clientBuilderMock.when(ClientBuilder::newClient).thenReturn(client);
 
 			Mockito.when(client.target(Mockito.anyString())).thenReturn(webTarget);
+			Mockito.when(webTarget.path(Mockito.anyString())).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
 			Mockito.when(invocationBuilder.post(Mockito.any())).thenReturn(resp);
@@ -70,6 +71,7 @@ class RestClientTest {
 			clientBuilderMock.when(ClientBuilder::newClient).thenReturn(client);
 
 			Mockito.when(client.target(Mockito.anyString())).thenReturn(webTarget);
+			Mockito.when(webTarget.path(Mockito.anyString())).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
 			Mockito.when(invocationBuilder.post(Mockito.any())).thenReturn(resp);
@@ -88,7 +90,7 @@ class RestClientTest {
 			clientBuilderMock.when(ClientBuilder::newClient).thenReturn(client);
 
 			Mockito.when(client.target(Mockito.anyString())).thenReturn(webTarget);
-			Mockito.when(webTarget.path("saveEservice")).thenReturn(webTarget);
+			Mockito.when(webTarget.path(Mockito.anyString())).thenReturn(webTarget);
 			Mockito.when(webTarget.request(MediaType.APPLICATION_JSON)).thenReturn(invocationBuilder);
 
 			Mockito.when(invocationBuilder.post(Mockito.any()))
