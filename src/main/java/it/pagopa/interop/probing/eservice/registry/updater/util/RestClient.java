@@ -26,18 +26,21 @@ public class RestClient {
   }
 
   private static final String ESERVICE_OPERATION_URL = "api.operations.baseUrl";
+  private static final String ESERVICE_BASE_PATH = "api.eservice.basePath";
 
   private String eserviceOperationUrl;
+  private String eserviceBasePath;
 
   private RestClient() throws IOException {
     this.eserviceOperationUrl = PropertiesLoader.getInstance().getKey(ESERVICE_OPERATION_URL);
+    this.eserviceBasePath = PropertiesLoader.getInstance().getKey(ESERVICE_BASE_PATH);
   }
 
   public Long saveEservice(EserviceDTO eservice, Client client) throws IOException {
 
-    WebTarget webTarget =
-        client.target(eserviceOperationUrl).path(eservice.getEserviceId().toString())
-            .path("versions").path(eservice.getVersionId().toString()).path("saveEservice");
+    WebTarget webTarget = client.target(eserviceOperationUrl).path(eserviceBasePath)
+        .path(eservice.getEserviceId().toString()).path("versions")
+        .path(eservice.getVersionId().toString()).path("saveEservice");
 
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
