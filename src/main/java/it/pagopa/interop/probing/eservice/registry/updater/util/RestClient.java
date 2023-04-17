@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.LoggingMessages;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.Entity;
@@ -46,8 +47,7 @@ public class RestClient {
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
     try {
-      log.info("Call to EserviceOperations ms save method for service {} with version {}",
-          eservice.getEserviceId(), eservice.getVersionId());
+      log.info(LoggingMessages.ESERVICE_SAVING, eservice.getEserviceId(), eservice.getVersionId());
       Response response =
           invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
       if (response.getStatus() == 200) {
@@ -57,8 +57,8 @@ public class RestClient {
             "Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId() + " has not been saved.");
       }
     } catch (ProcessingException e) {
-      log.error("Service {} with version {} has not been saved. Exception:\n{}",
-          eservice.getEserviceId(), eservice.getVersionId(), e.getMessage());
+      log.error(LoggingMessages.ESERVICE_SAVE_EXCEPTION, eservice.getEserviceId(),
+          eservice.getVersionId(), e.getMessage());
       throw e;
     }
 
