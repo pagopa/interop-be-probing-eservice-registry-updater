@@ -2,6 +2,7 @@ package it.pagopa.interop.probing.eservice.registry.updater.util;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import jakarta.ws.rs.ProcessingException;
@@ -45,19 +46,19 @@ public class RestClient {
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
     try {
-      log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
-          + " with version " + eservice.getVersionId());
+      log.info("Call to EserviceOperations ms save method for service {} with version {}",
+          eservice.getEserviceId(), eservice.getVersionId());
       Response response =
           invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
       if (response.getStatus() == 200) {
         return response.readEntity(Long.class);
       } else {
-        throw new IOException("Service " + eservice.getEserviceId() + " with version "
-            + eservice.getVersionId() + " has not been saved.");
+        throw new IOException(
+            "Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId() + " has not been saved.");
       }
     } catch (ProcessingException e) {
-      log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
-          + " has not been saved.", e.getMessage());
+      log.error("Service {} with version {} has not been saved. Exception:\n{}",
+          eservice.getEserviceId(), eservice.getVersionId(), e.getMessage());
       throw e;
     }
 
