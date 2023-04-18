@@ -68,12 +68,12 @@ public class RestClient {
       if (response.getStatus() == 200) {
         return response.readEntity(Long.class);
       } else {
-        throw new IOException("Service " + eservice.getEserviceId() + " with version "
+        throw new IOException("Service " + eservice.getEserviceId() + "LELLO with version "
             + eservice.getVersionId() + " has not been saved.");
       }
     } catch (ProcessingException e) {
-      log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
-          + " has not been saved.", e.getMessage());
+      log.error("Service " + eservice.getEserviceId() + "LELLA with version "
+          + eservice.getVersionId() + " has not been saved.", e.getMessage());
       throw e;
     }
 
