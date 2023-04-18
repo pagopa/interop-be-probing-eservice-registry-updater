@@ -38,7 +38,7 @@ public class RestClient {
 
   public Long saveEservice(EserviceDTO eservice, Client client) throws IOException {
 
-    WebTarget webTarget = client.target(eserviceOperationUrl).path(eserviceBasePath)
+    WebTarget webTarget = client.target(eserviceOperationUrl + eserviceBasePath)
         .path(eservice.getEserviceId().toString()).path("versions")
         .path(eservice.getVersionId().toString()).path("saveEservice");
 
