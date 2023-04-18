@@ -112,6 +112,7 @@
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${glassfish.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.activation</groupId>
