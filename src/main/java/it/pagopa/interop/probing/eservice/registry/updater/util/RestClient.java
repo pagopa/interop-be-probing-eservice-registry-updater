@@ -38,6 +38,8 @@ public class RestClient {
 
   public Long saveEservice(EserviceDTO eservice, Client client) throws IOException {
 
+    log.info("EserviceDTO: " + eservice.toString());
+
     WebTarget webTarget = client.target(eserviceOperationUrl + eserviceBasePath)
         .path(eservice.getEserviceId().toString()).path("versions")
         .path(eservice.getVersionId().toString()).path("saveEservice");
@@ -45,12 +47,24 @@ public class RestClient {
     Invocation.Builder invocationBuilder =
         webTarget.request().header("Content-Type", MediaType.APPLICATION_JSON);
 
-
     try {
       log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
           + " with version " + eservice.getVersionId());
+      Entity<EserviceDTO> ciao = Entity.entity(eservice, MediaType.APPLICATION_JSON);
+      EserviceDTO entity = ciao.getEntity();
+
+      log.info("Eservice name: " + entity.getName());
+      log.info("Eservice producer: " + entity.getProducerName());
+      log.info("Eservice versionNumber: " + entity.getVersionNumber());
+      log.info("Eservice basePath: " + entity.getBasePath());
+      log.info("Eservice eserviceID: " + entity.getEserviceId());
+      log.info("Eservice state: " + entity.getState());
+      log.info("Eservice technology: " + entity.getTechnology());
+      log.info("Eservice versionId: " + entity.getVersionId());
+
       Response response =
           invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
+
       if (response.getStatus() == 200) {
         return response.readEntity(Long.class);
       } else {
