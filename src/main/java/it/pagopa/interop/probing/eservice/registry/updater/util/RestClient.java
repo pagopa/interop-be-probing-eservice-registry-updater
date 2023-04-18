@@ -44,13 +44,15 @@ public class RestClient {
         .path(eservice.getEserviceId().toString()).path("versions")
         .path(eservice.getVersionId().toString()).path("saveEservice");
 
-    Invocation.Builder invocationBuilder =
-        webTarget.request().header("Content-Type", MediaType.APPLICATION_JSON);
+    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
     try {
       log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
           + " with version " + eservice.getVersionId());
       Entity<EserviceDTO> ciao = Entity.entity(eservice, MediaType.APPLICATION_JSON);
+
+      log.info(ciao.toString());
+
       EserviceDTO entity = ciao.getEntity();
 
       log.info("Eservice name: " + entity.getName());
