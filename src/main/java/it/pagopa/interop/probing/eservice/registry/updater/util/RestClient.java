@@ -2,7 +2,6 @@ package it.pagopa.interop.probing.eservice.registry.updater.util;
 
 import java.io.IOException;
 import java.util.Objects;
-import org.apache.http.entity.ContentType;
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import jakarta.ws.rs.ProcessingException;
@@ -10,6 +9,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,22 +37,20 @@ public class RestClient {
   }
 
   public Long saveEservice(EserviceDTO eservice, Client client) throws IOException {
-    log.info(client.target(eserviceOperationUrl + eserviceBasePath)
-        .path(eservice.getEserviceId().toString()).path("versions")
-        .path(eservice.getVersionId().toString()).path("saveEservice").toString());
 
     WebTarget webTarget = client.target(eserviceOperationUrl + eserviceBasePath)
         .path(eservice.getEserviceId().toString()).path("versions")
         .path(eservice.getVersionId().toString()).path("saveEservice");
 
     Invocation.Builder invocationBuilder =
-        webTarget.request(ContentType.APPLICATION_JSON.toString());
+        webTarget.request().header("Content-Type", MediaType.APPLICATION_JSON);
+
 
     try {
       log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
           + " with version " + eservice.getVersionId());
       Response response =
-          invocationBuilder.put(Entity.entity(eservice, ContentType.APPLICATION_JSON.toString()));
+          invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
       if (response.getStatus() == 200) {
         return response.readEntity(Long.class);
       } else {
