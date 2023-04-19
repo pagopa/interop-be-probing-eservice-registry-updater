@@ -29,7 +29,7 @@ public class LoggerLayout extends LayoutBase<ILoggingEvent> {
 			MDC.remove(ProjectConstants.TRACE_ID_PLACEHOLDER);
 		}
 
-		sbuf.append(event.getMessage());
+		sbuf.append(event.getFormattedMessage());
 		sbuf.append("\n");
 		return sbuf.toString();
 	}

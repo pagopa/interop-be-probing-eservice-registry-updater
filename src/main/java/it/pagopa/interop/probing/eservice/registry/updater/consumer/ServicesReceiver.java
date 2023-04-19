@@ -1,6 +1,7 @@
 package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,8 @@ import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoad
 import it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs.SqsConfig;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.util.RestClient;
-import it.pagopa.interop.probing.eservice.registry.updater.util.logging.LoggingMessages;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.impl.LoggerImpl;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServicesReceiver {
 
+  private final Logger logger = new LoggerImpl();
   private static ServicesReceiver instance;
 
   private static final String SQS = "amazon.sqs.endpoint.services-queue";
@@ -54,12 +57,12 @@ public class ServicesReceiver {
         for (Message message : sqsMessages) {
           EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
           RestClient.getInstance().saveEservice(service, client);
-          log.info(LoggingMessages.ESERVICE_SAVED, service.getEserviceId(), service.getVersionId());
+          logger.logMessageEserviceSaved(service.getEserviceId(), service.getVersionId());
           sqs.getAmazonSQSAsync().deleteMessage(
               new DeleteMessageRequest().withQueueUrl(sqsUrlServices)
                   .withReceiptHandle(message.getReceiptHandle()));
-          log.info(LoggingMessages.QUEUE_MESSAGE_DELETED, service.getEserviceId(),
-              service.getVersionId(), sqsUrlServices);
+          logger.logMessageQueueMessageDeleted(service.getEserviceId(), service.getVersionId(),
+              URI.create(sqsUrlServices));
         }
         sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
       }
