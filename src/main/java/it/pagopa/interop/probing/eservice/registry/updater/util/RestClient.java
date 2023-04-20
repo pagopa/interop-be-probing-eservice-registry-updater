@@ -2,8 +2,11 @@ package it.pagopa.interop.probing.eservice.registry.updater.util;
 
 import java.io.IOException;
 import java.util.Objects;
+
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.impl.LoggerImpl;
 import jakarta.ws.rs.ProcessingException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.Entity;
@@ -11,11 +14,10 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class RestClient {
 
+  private final Logger logger = new LoggerImpl();
   private static RestClient instance;
 
   public static RestClient getInstance() throws IOException {
@@ -45,19 +47,18 @@ public class RestClient {
     Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
     try {
-      log.info("Call to EserviceOperations ms save method for service " + eservice.getEserviceId()
-          + " with version " + eservice.getVersionId());
+      logger.logMessageSavingEservice(eservice.getEserviceId(), eservice.getVersionId());
       Response response =
           invocationBuilder.put(Entity.entity(eservice, MediaType.APPLICATION_JSON));
       if (response.getStatus() == 200) {
         return response.readEntity(Long.class);
       } else {
-        throw new IOException("Service " + eservice.getEserviceId() + " with version "
-            + eservice.getVersionId() + " has not been saved.");
+        throw new IOException(
+            "Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId() + " has not been saved.");
       }
     } catch (ProcessingException e) {
-      log.error("Service " + eservice.getEserviceId() + " with version " + eservice.getVersionId()
-          + " has not been saved.", e.getMessage());
+      logger.logMessageExceptionSavingEservice(eservice.getEserviceId(),
+          eservice.getVersionId(), e.getMessage());
       throw e;
     }
 
