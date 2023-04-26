@@ -58,7 +58,7 @@ public class ServicesReceiver {
     List<Message> sqsMessages =
         sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 
-    while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
+    while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
