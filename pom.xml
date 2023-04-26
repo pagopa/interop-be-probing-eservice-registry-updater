@@ -19,7 +19,7 @@
 		<mockito.version>4.8.1</mockito.version>
 		<slf4j.version>2.0.6</slf4j.version>
 		<logback.version>1.3.5</logback.version>
-		<glassfish.version>3.1.1</glassfish.version>
+		<feign.version>10.11</feign.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -99,19 +99,14 @@
 			<version>1.4.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${glassfish.version}</version>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-okhttp</artifactId>
+			<version>${feign.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jersey.inject</groupId>
-			<artifactId>jersey-hk2</artifactId>
-			<version>${glassfish.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>${glassfish.version}</version>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-gson</artifactId>
+			<version>${feign.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.activation</groupId>
