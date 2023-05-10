@@ -1,6 +1,7 @@
 
-package it.pagopa.interop.probing.eservice.registry.updater.dto;
+package it.pagopa.interop.probing.eservice.registry.updater.dto.impl;
 
+import it.pagopa.interop.probing.eservice.registry.updater.dto.Dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -26,7 +27,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class EserviceDTO {
+public class EserviceDTO implements Dto {
 
 	@NotBlank(message = "must not be blank")
 	@Size(max = 255, message = "must not be longer than 255 chars")

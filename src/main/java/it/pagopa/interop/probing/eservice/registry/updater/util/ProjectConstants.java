@@ -7,7 +7,6 @@ public class ProjectConstants {
 		super();
 	}
 
-	public static final String PROPERTIES = "application.properties";
 	public static final String TRACE_ID_PLACEHOLDER = "trace_id";
 
 }

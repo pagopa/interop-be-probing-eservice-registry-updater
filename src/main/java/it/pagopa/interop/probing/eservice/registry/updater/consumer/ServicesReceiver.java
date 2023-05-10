@@ -15,7 +15,7 @@ import feign.okhttp.OkHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs.SqsConfig;
-import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.impl.LoggerImpl;
 
