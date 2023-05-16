@@ -27,7 +27,7 @@ public class ServicesReceiver {
 
   private static final String SQS = "amazon.sqs.endpoint.services-queue";
   private static final String ESERVICE_OPERATION_URL = "api.operations.baseUrl";
-  private static final String ESERVICE_BASE_PATH = "api.eservice.basePath";
+  private static final String ESERVICE_BASE_PATH = "api.operations.eservice.basePath";
 
   public static ServicesReceiver getInstance() throws IOException {
     if (Objects.isNull(instance)) {
