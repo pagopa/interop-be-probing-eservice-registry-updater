@@ -1,6 +1,7 @@
 package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
@@ -14,12 +15,14 @@ import feign.okhttp.OkHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.config.PropertiesLoader;
 import it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs.SqsConfig;
-import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
-import lombok.extern.slf4j.Slf4j;
+import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
+import it.pagopa.interop.probing.eservice.registry.updater.util.logging.impl.LoggerImpl;
 
-@Slf4j
+
 public class ServicesReceiver {
 
+  private final Logger logger = new LoggerImpl();
   private static ServicesReceiver instance;
 
   private static final String SQS = "amazon.sqs.endpoint.services-queue";
@@ -46,6 +49,7 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
+
     ObjectMapper mapper = new ObjectMapper();
     SqsConfig sqs = SqsConfig.getInstance();
 
@@ -54,7 +58,7 @@ public class ServicesReceiver {
     List<Message> sqsMessages =
         sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
 
-    while (Objects.nonNull(sqsMessages) && !sqsMessages.isEmpty()) {
+    while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
@@ -62,23 +66,26 @@ public class ServicesReceiver {
             .encoder(new GsonEncoder()).decoder(new GsonDecoder())
             .target(EserviceClient.class, eserviceOperationUrl + eserviceBasePath);
 
-        log.info("Call to EserviceOperations ms save method for service " + service.getEserviceId()
-            + " with version " + service.getVersionId());
-
-        eserviceClient.saveEservice(service.getEserviceId().toString(),
-            service.getVersionId().toString(), service);
-
-        log.info("Service " + service.getEserviceId() + " with version " + service.getVersionId()
-            + " has been saved.");
+        logger.logMessageSavingEservice(service.getEserviceId(), service.getVersionId());
+        try {
+          eserviceClient.saveEservice(service.getEserviceId().toString(),
+              service.getVersionId().toString(), service);
+        } catch (Exception e) {
+          logger.logMessageExceptionSavingEservice(service.getEserviceId(), service.getVersionId(),
+              e.getMessage());
+          throw e;
+        }
+        logger.logMessageEserviceSaved(service.getEserviceId(), service.getVersionId());
 
         sqs.getAmazonSQSAsync().deleteMessage(new DeleteMessageRequest()
             .withQueueUrl(sqsUrlServices).withReceiptHandle(message.getReceiptHandle()));
 
-        log.info("Message deleted from queue -> Service " + service.getEserviceId()
-            + " with version " + service.getVersionId() + " Reading next message.");
+        logger.logMessageQueueMessageDeleted(service.getEserviceId(), service.getVersionId(),
+            URI.create(sqsUrlServices));
       }
       sqsMessages = sqs.getAmazonSQSAsync().receiveMessage(receiveMessageRequest).getMessages();
     }
+
   }
 
 }

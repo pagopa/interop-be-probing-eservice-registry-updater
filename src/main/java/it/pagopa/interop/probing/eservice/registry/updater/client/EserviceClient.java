@@ -3,7 +3,7 @@ package it.pagopa.interop.probing.eservice.registry.updater.client;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
-import it.pagopa.interop.probing.eservice.registry.updater.dto.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
 
 public interface EserviceClient {
 
