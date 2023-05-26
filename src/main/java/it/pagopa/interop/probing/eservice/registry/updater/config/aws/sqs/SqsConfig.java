@@ -1,35 +1,27 @@
 
 package it.pagopa.interop.probing.eservice.registry.updater.config.aws.sqs;
 
-import java.util.Objects;
-
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
-
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import lombok.Getter;
 
 @Getter
-public class SqsConfig {
+public class SqsConfig extends AbstractModule {
 
-	private AmazonSQSAsync amazonSQSAsync;
+  @Override
+  protected void configure() {
+    bind(SqsConfig.class).asEagerSingleton();
+  }
 
-	private static SqsConfig instance;
-
-	public static SqsConfig getInstance() {
-		if (Objects.isNull(instance)) {
-			instance = new SqsConfig();
-		}
-		return instance;
-	}
-
-	private SqsConfig() {
-		this.amazonSQSAsync = amazonSQSAsync();
-	}
-
-	private AmazonSQSAsync amazonSQSAsync() {
-		return AmazonSQSAsyncClientBuilder.standard().withCredentials(new DefaultAWSCredentialsProviderChain()).build();
-
-	}
+  @Provides
+  @Singleton
+  public AmazonSQSAsync provideAmazonSQSAsync() {
+    return AmazonSQSAsyncClientBuilder.standard()
+        .withCredentials(new DefaultAWSCredentialsProviderChain()).build();
+  }
 
 }

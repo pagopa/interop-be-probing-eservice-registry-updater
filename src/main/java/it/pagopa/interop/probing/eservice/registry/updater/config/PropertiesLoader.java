@@ -1,37 +1,38 @@
 
 package it.pagopa.interop.probing.eservice.registry.updater.config;
 
-import java.io.IOException;
-import java.util.Objects;
-
+import java.util.Properties;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PropertiesLoader {
+@Singleton
+public class PropertiesLoader extends AbstractModule {
 
-	private static PropertiesLoader instance;
+  @Override
+  protected void configure() {
+    Names.bindProperties(binder(), loadProperties());
+  }
 
-	private Config props;
+  @Provides
+  @Singleton
+  public Config provideConfig() {
+    return ConfigFactory.load();
+  }
 
-	public PropertiesLoader() throws IOException {
-		this.props = ConfigFactory.load();
-		log.info("Properties loaded successfully");
-	}
-
-	public String getKey(String key) {
-		return this.props.getString(key);
-	}
-
-	static public PropertiesLoader getInstance() throws IOException {
-		if (Objects.isNull(instance)) {
-			synchronized (PropertiesLoader.class) {
-				instance = new PropertiesLoader();
-			}
-		}
-		return instance;
-	}
+  private Properties loadProperties() {
+    Config config = ConfigFactory.load();
+    Properties properties = new Properties();
+    config.entrySet()
+        .forEach(entry -> properties.put(entry.getKey(), entry.getValue().unwrapped()));
+    log.info("Properties loaded successfully");
+    return properties;
+  }
 
 }
+
