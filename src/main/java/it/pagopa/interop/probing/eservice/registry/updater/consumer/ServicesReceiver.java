@@ -22,8 +22,10 @@ import feign.okhttp.OkHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 @Singleton
+@Slf4j
 public class ServicesReceiver {
 
   @Inject
@@ -59,15 +61,17 @@ public class ServicesReceiver {
 
         String traceHeaderx = message.getAttributes().get("X-Amzn-Trace-Id");
         String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
+        log.info(message.getAttributes().get("X-Amzn-Trace-Id"));
+        log.info(message.getAttributes().get("AWSTraceHeader"));
         if (traceHeaderStr != null) {
           TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
-          System.out.println(traceHeader.getRootTraceId());
-          System.out.println(traceHeader.getRootTraceId());
+          log.info(traceHeader.getRootTraceId().toString());
           Segment segment = AWSXRay.getCurrentSegment();
           segment.setTraceId(traceHeader.getRootTraceId());
           segment.setParentId(traceHeader.getParentId());
           segment.setSampled(traceHeader.getSampled().equals(TraceHeader.SampleDecision.SAMPLED));
           Entity mySegment = segment;
+          log.info(segment.getTraceId().toString());
           AWSXRay.getGlobalRecorder().setTraceEntity(mySegment);
         }
 
