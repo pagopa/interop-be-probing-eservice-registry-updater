@@ -7,6 +7,9 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Segment;
+import com.amazonaws.xray.entities.TraceHeader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -45,13 +48,23 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-    ReceiveMessageRequest receiveMessageRequest =
-        new ReceiveMessageRequest(sqsUrlServices).withMaxNumberOfMessages(10);
+    ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
+        .withMaxNumberOfMessages(10).withAttributeNames("AWSTraceHeader");
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
+
+        String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
+        if (traceHeaderStr != null) {
+          TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
+
+          Segment segment = AWSXRay.getCurrentSegment();
+          segment.setTraceId(traceHeader.getRootTraceId());
+          segment.setParentId(traceHeader.getParentId());
+          segment.setSampled(traceHeader.getSampled().equals(TraceHeader.SampleDecision.SAMPLED));
+        }
 
         EserviceClient eserviceClient = Feign.builder().client(new OkHttpClient())
             .encoder(new GsonEncoder()).decoder(new GsonDecoder())
