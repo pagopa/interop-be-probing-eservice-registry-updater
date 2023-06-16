@@ -60,12 +60,10 @@ public class ServicesReceiver {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
-        MessageAttributeValue traceHeaderx = message.getMessageAttributes().get("AWSTraceHeader");
-        String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
-        log.info(traceHeaderx.getStringValue());
+        MessageAttributeValue traceHeaderStr = message.getMessageAttributes().get("AWSTraceHeader");
         log.info(message.getAttributes().get("AWSTraceHeader"));
         if (traceHeaderStr != null) {
-          TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
+          TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr.getStringValue());
           log.info(traceHeader.getRootTraceId().toString());
           Segment segment = AWSXRay.getCurrentSegment();
           segment.setTraceId(traceHeader.getRootTraceId());
