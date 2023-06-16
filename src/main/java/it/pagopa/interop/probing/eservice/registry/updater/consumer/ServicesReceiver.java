@@ -8,6 +8,7 @@ import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Entity;
 import com.amazonaws.xray.entities.Segment;
 import com.amazonaws.xray.entities.TraceHeader;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,22 +49,26 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-    ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
-        .withMaxNumberOfMessages(10).withAttributeNames("AWSTraceHeader");
+    ReceiveMessageRequest receiveMessageRequest =
+        new ReceiveMessageRequest(sqsUrlServices).withMaxNumberOfMessages(10);
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
+        String traceHeaderx = message.getAttributes().get("X-Amzn-Trace-Id");
         String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
         if (traceHeaderStr != null) {
           TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
-
+          System.out.println(traceHeader.getRootTraceId());
+          System.out.println(traceHeader.getRootTraceId());
           Segment segment = AWSXRay.getCurrentSegment();
           segment.setTraceId(traceHeader.getRootTraceId());
           segment.setParentId(traceHeader.getParentId());
           segment.setSampled(traceHeader.getSampled().equals(TraceHeader.SampleDecision.SAMPLED));
+          Entity mySegment = segment;
+          AWSXRay.getGlobalRecorder().setTraceEntity(mySegment);
         }
 
         EserviceClient eserviceClient = Feign.builder().client(new OkHttpClient())
