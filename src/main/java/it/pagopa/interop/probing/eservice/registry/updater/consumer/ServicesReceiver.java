@@ -6,6 +6,7 @@ import java.util.List;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.MessageAttributeValue;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.xray.AWSXRay;
 import com.amazonaws.xray.entities.Entity;
@@ -59,9 +60,9 @@ public class ServicesReceiver {
       for (Message message : sqsMessages) {
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
-        String traceHeaderx = message.getAttributes().get("X-Amzn-Trace-Id");
+        MessageAttributeValue traceHeaderx = message.getMessageAttributes().get("AWSTraceHeader");
         String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
-        log.info(message.getAttributes().get("X-Amzn-Trace-Id"));
+        log.info(traceHeaderx.getStringValue());
         log.info(message.getAttributes().get("AWSTraceHeader"));
         if (traceHeaderStr != null) {
           TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
