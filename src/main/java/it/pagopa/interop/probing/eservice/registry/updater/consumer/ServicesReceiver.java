@@ -51,8 +51,8 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-    ReceiveMessageRequest receiveMessageRequest =
-        new ReceiveMessageRequest(sqsUrlServices).withMaxNumberOfMessages(10);
+    ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
+        .withMaxNumberOfMessages(10).withMessageAttributeNames("AWSTraceHeader");
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
 
     while (!sqsMessages.isEmpty()) {
@@ -98,6 +98,7 @@ public class ServicesReceiver {
       }
       sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
     }
+    AWSXRay.endSegment();
 
   }
 
