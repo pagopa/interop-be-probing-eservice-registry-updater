@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
+<configuration debug="true">
 
 	<appender name="STDOUT"
 		class="ch.qos.logback.core.ConsoleAppender">
@@ -52,6 +52,7 @@
 	<logger name="com.typesafe" level="WARN" />
 	<logger name="io.github.openfeign" level="WARN" />
 	<logger name="jakarta.activation" level="WARN" />
+	<logger name="com.amazonaws.xray" level="DEBUG" />
 
 	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="INFO" />
 
