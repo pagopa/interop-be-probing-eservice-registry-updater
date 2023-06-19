@@ -41,7 +41,7 @@
 		<appender-ref ref="STDERR" />
 	</appender>
 
-	<logger name="com.amazonaws" level="WARN" />
+	<logger name="com.amazonaws" level="DEBUG" />
 	<logger name="javax.validation" level="WARN" />
 	<logger name="org.junit.jupiter" level="WARN" />
 	<logger name="org.mockito" level="WARN" />
@@ -52,7 +52,6 @@
 	<logger name="com.typesafe" level="WARN" />
 	<logger name="io.github.openfeign" level="WARN" />
 	<logger name="jakarta.activation" level="WARN" />
-	<logger name="com.amazonaws.xray" level="DEBUG" />
 
 	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="INFO" />
 
