@@ -3,7 +3,6 @@ package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
@@ -24,10 +23,8 @@ import feign.httpclient.ApacheHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
-import lombok.extern.slf4j.Slf4j;
 
 @Singleton
-@Slf4j
 public class ServicesReceiver {
 
   @Inject
@@ -63,29 +60,15 @@ public class ServicesReceiver {
             .withAttributeNames("AWSTraceHeader").withMessageAttributeNames("AWSTraceHeader");
 
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
-    // System.out.println(AWSXRay.getCurrentSegment().getTraceId().toString());
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
         TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
         AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
             traceHeader.getRootTraceId(), null);
-        System.out
-            .println(" traceHeader.getRootTraceId() : " + traceHeader.getRootTraceId().toString());
-        System.out.println(" traceHeader.getParentId() : " + traceHeader.getParentId());
-        // System.out.println(
-        // " currentSegment ParentId() : " + AWSXRay.getCurrentSegment().getParentId().toString());
         System.out.println(
-            " currentSegment TraceId() : " + AWSXRay.getCurrentSegment().getTraceId().toString());
+            "[TRACE_ID= ".concat(AWSXRay.getCurrentSegment().getTraceId().toString()).concat("]"));
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
-        service.setEserviceId(UUID.randomUUID());
-        service.setVersionId(UUID.randomUUID());
-        // Recover the trace context from the trace header
-        // Segment segment = AWSXRay.getCurrentSegment();
-        // segment.setTraceId(traceHeader.getRootTraceId());
-        // segment.setParentId(traceHeader.getParentId());
-        // segment.setSampled(traceHeader.getSampled().equals(TraceHeader.SampleDecision.SAMPLED));
-        // AWSXRay.getGlobalRecorder().getCurrentSegment();
 
         EserviceClient eserviceClient =
             Feign.builder().client(new ApacheHttpClient(HttpClientBuilder.create().build()))
