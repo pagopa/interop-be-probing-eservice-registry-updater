@@ -55,9 +55,8 @@ public class ServicesReceiver {
 
     AWSXRay.setGlobalRecorder(builder.build());
 
-    ReceiveMessageRequest receiveMessageRequest =
-        new ReceiveMessageRequest(sqsUrlServices).withMaxNumberOfMessages(10)
-            .withAttributeNames("AWSTraceHeader").withMessageAttributeNames("AWSTraceHeader");
+    ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
+        .withMaxNumberOfMessages(10).withAttributeNames("AWSTraceHeader");
 
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
     while (!sqsMessages.isEmpty()) {
