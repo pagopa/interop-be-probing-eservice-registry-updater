@@ -41,7 +41,7 @@
 		<appender-ref ref="STDERR" />
 	</appender>
 
-	<logger name="com.amazonaws" level="DEBUG" />
+	<logger name="com.amazonaws" level="WARN" />
 	<logger name="javax.validation" level="WARN" />
 	<logger name="org.junit.jupiter" level="WARN" />
 	<logger name="org.mockito" level="WARN" />
