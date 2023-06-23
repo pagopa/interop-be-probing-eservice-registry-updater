@@ -64,7 +64,7 @@ public class ServicesReceiver {
         String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
         TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
         AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
-            traceHeader.getRootTraceId(), null);
+            traceHeader.getRootTraceId(), traceHeader.getParentId());
         System.out.println(
             "[TRACE_ID= ".concat(AWSXRay.getCurrentSegment().getTraceId().toString()).concat("]"));
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
