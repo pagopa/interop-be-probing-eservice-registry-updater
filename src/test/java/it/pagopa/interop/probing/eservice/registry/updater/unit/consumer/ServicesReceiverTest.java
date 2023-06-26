@@ -56,7 +56,7 @@ class ServicesReceiverTest {
   @InjectMocks
   private EserviceClient client = mock(EserviceClient.class);
 
-  private Message message = mock(Message.class);
+  private Message message = new Message();
   private EserviceDTO eServiceDTO;
   private Map<String, String> attributes = new HashMap<>();
   private String mockedId = "mockedId";
@@ -73,7 +73,10 @@ class ServicesReceiverTest {
             .technology(EserviceTechnology.REST).basePath(basePath).audience(audience)
             .versionNumber(1).build();
 
+    message.setBody(eServiceDTO.toString());
+    message.setAttributes(attributes);
     attributes.put("AWSTraceHeader", mockedId);
+
     Injector injector = Guice.createInjector(new AbstractModule() {
       @Override
       protected void configure() {
@@ -102,8 +105,7 @@ class ServicesReceiverTest {
   @DisplayName("The method reads message from queue and saves to db")
   void testReceiveStringMessage_whenReadMessage_thenSaveMessage() throws IOException {
 
-    Mockito.when(message.getBody()).thenReturn(eServiceDTO.toString());
-    Mockito.when(message.getAttributes()).thenReturn(attributes);
+
 
     Mockito.when(sqsMock.receiveMessage(Mockito.any(ReceiveMessageRequest.class))).thenReturn(
         new ReceiveMessageResult().withMessages(List.of(message)), new ReceiveMessageResult());
