@@ -22,6 +22,7 @@ import feign.gson.GsonEncoder;
 import feign.httpclient.ApacheHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.ProjectConstants;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
 
 @Singleton
@@ -56,17 +57,16 @@ public class ServicesReceiver {
     AWSXRay.setGlobalRecorder(builder.build());
 
     ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
-        .withMaxNumberOfMessages(10).withAttributeNames("AWSTraceHeader");
+        .withMaxNumberOfMessages(10).withAttributeNames(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
 
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
-        String traceHeaderStr = message.getAttributes().get("AWSTraceHeader");
+        String traceHeaderStr =
+            message.getAttributes().get(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
         TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
         AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
             traceHeader.getRootTraceId(), null);
-        System.out.println(
-            "[TRACE_ID= ".concat(AWSXRay.getCurrentSegment().getTraceId().toString()).concat("]"));
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
         EserviceClient eserviceClient =
