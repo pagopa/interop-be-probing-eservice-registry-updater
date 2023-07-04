@@ -52,10 +52,10 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-    AWSXRayRecorderBuilder builder = AWSXRayRecorderBuilder.standard().withDefaultPlugins()
-        .withSamplingStrategy(new DefaultSamplingStrategy());
-    AWSXRay.setGlobalRecorder(builder.build());
-    AWSXRay.getGlobalRecorder().setContextMissingStrategy(new IgnoreErrorContextMissingStrategy());
+//    AWSXRayRecorderBuilder builder = AWSXRayRecorderBuilder.standard().withDefaultPlugins()
+//        .withSamplingStrategy(new DefaultSamplingStrategy());
+//
+//    AWSXRay.setGlobalRecorder(builder.build());
 
     ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
         .withMaxNumberOfMessages(10).withAttributeNames(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
@@ -66,11 +66,10 @@ public class ServicesReceiver {
         String traceHeaderStr =
             message.getAttributes().get(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
         TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
-        AWSXRay.getGlobalRecorder()
-            .setContextMissingStrategy(new IgnoreErrorContextMissingStrategy());
+        AWSXRay.getGlobalRecorder().setContextMissingStrategy(new IgnoreErrorContextMissingStrategy());
         AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
             traceHeader.getRootTraceId(), null);
-
+        
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
         EserviceClient eserviceClient =
