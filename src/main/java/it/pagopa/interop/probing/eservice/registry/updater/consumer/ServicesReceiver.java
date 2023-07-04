@@ -8,11 +8,8 @@ import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.xray.AWSXRay;
-import com.amazonaws.xray.AWSXRayRecorderBuilder;
 import com.amazonaws.xray.entities.TraceHeader;
 import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
-import com.amazonaws.xray.strategy.IgnoreErrorContextMissingStrategy;
-import com.amazonaws.xray.strategy.sampling.DefaultSamplingStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,11 +49,6 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-//    AWSXRayRecorderBuilder builder = AWSXRayRecorderBuilder.standard().withDefaultPlugins()
-//        .withSamplingStrategy(new DefaultSamplingStrategy());
-//
-//    AWSXRay.setGlobalRecorder(builder.build());
-
     ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
         .withMaxNumberOfMessages(10).withAttributeNames(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
 
@@ -66,10 +58,9 @@ public class ServicesReceiver {
         String traceHeaderStr =
             message.getAttributes().get(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
         TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
-        AWSXRay.getGlobalRecorder().setContextMissingStrategy(new IgnoreErrorContextMissingStrategy());
         AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
             traceHeader.getRootTraceId(), null);
-        
+
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
         EserviceClient eserviceClient =
