@@ -41,19 +41,19 @@
 		<appender-ref ref="STDERR" />
 	</appender>
 
-	<logger name="com.amazonaws" level="WARN" />
-	<logger name="javax.validation" level="WARN" />
-	<logger name="org.junit.jupiter" level="WARN" />
-	<logger name="org.mockito" level="WARN" />
-	<logger name="org.projectlombok" level="WARN" />
-	<logger name="org.slf4j" level="WARN" />
-	<logger name="ch.qos.logbacks" level="WARN" />
-	<logger name="org.apache.commons" level="WARN" />
-	<logger name="com.typesafe" level="WARN" />
-	<logger name="io.github.openfeign" level="WARN" />
-	<logger name="jakarta.activation" level="WARN" />
+	<logger name="com.amazonaws" level="DEBUG" />
+	<logger name="javax.validation" level="DEBUG" />
+	<logger name="org.junit.jupiter" level="DEBUG" />
+	<logger name="org.mockito" level="DEBUG" />
+	<logger name="org.projectlombok" level="DEBUG" />
+	<logger name="org.slf4j" level="DEBUG" />
+	<logger name="ch.qos.logbacks" level="DEBUG" />
+	<logger name="org.apache.commons" level="DEBUG" />
+	<logger name="com.typesafe" level="DEBUG" />
+	<logger name="io.github.openfeign" level="DEBUG" />
+	<logger name="jakarta.activation" level="DEBUG" />
 
-	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="INFO" />
+	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="DEBUG" />
 
 	<root name="application" level="INFO">
 		<appender-ref ref="ASYNC_STDOUT" />
