@@ -11,6 +11,7 @@ import com.amazonaws.xray.AWSXRay;
 import com.amazonaws.xray.AWSXRayRecorderBuilder;
 import com.amazonaws.xray.entities.TraceHeader;
 import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
+import com.amazonaws.xray.strategy.IgnoreErrorContextMissingStrategy;
 import com.amazonaws.xray.strategy.sampling.DefaultSamplingStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
@@ -52,7 +53,8 @@ public class ServicesReceiver {
   public void receiveStringMessage() throws IOException {
 
     AWSXRayRecorderBuilder builder = AWSXRayRecorderBuilder.standard().withDefaultPlugins()
-        .withSamplingStrategy(new DefaultSamplingStrategy());
+        .withSamplingStrategy(new DefaultSamplingStrategy())
+        .withContextMissingStrategy(new IgnoreErrorContextMissingStrategy());
 
     AWSXRay.setGlobalRecorder(builder.build());
 
