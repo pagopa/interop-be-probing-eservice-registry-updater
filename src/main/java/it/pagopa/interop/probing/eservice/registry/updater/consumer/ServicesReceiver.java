@@ -7,6 +7,9 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.TraceHeader;
+import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -14,9 +17,10 @@ import com.google.inject.name.Named;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import feign.okhttp.OkHttpClient;
+import feign.httpclient.ApacheHttpClient;
 import it.pagopa.interop.probing.eservice.registry.updater.client.EserviceClient;
 import it.pagopa.interop.probing.eservice.registry.updater.dto.impl.EserviceDTO;
+import it.pagopa.interop.probing.eservice.registry.updater.util.ProjectConstants;
 import it.pagopa.interop.probing.eservice.registry.updater.util.logging.Logger;
 
 @Singleton
@@ -45,17 +49,24 @@ public class ServicesReceiver {
 
   public void receiveStringMessage() throws IOException {
 
-    ReceiveMessageRequest receiveMessageRequest =
-        new ReceiveMessageRequest(sqsUrlServices).withMaxNumberOfMessages(10);
-    List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+    ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest(sqsUrlServices)
+        .withMaxNumberOfMessages(10).withAttributeNames(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
 
+    List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
+        String traceHeaderStr =
+            message.getAttributes().get(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
+        TraceHeader traceHeader = TraceHeader.fromString(traceHeaderStr);
+        AWSXRay.getGlobalRecorder().beginSegment("Interop-be-probing-eservice-registry-updater",
+            traceHeader.getRootTraceId(), null);
+
         EserviceDTO service = mapper.readValue(message.getBody(), EserviceDTO.class);
 
-        EserviceClient eserviceClient = Feign.builder().client(new OkHttpClient())
-            .encoder(new GsonEncoder()).decoder(new GsonDecoder())
-            .target(EserviceClient.class, eserviceOperationUrl + eserviceBasePath);
+        EserviceClient eserviceClient =
+            Feign.builder().client(new ApacheHttpClient(HttpClientBuilder.create().build()))
+                .encoder(new GsonEncoder()).decoder(new GsonDecoder())
+                .target(EserviceClient.class, eserviceOperationUrl + eserviceBasePath);
 
         logger.logMessageSavingEservice(service.getEserviceId(), service.getVersionId());
         try {
@@ -73,6 +84,7 @@ public class ServicesReceiver {
 
         logger.logMessageQueueMessageDeleted(service.getEserviceId(), service.getVersionId(),
             URI.create(sqsUrlServices));
+        AWSXRay.endSegment();
       }
       sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
     }

@@ -7,8 +7,11 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,11 +23,13 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
+import com.amazonaws.xray.AWSXRay;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
+import feign.Client;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
@@ -51,11 +56,14 @@ class ServicesReceiverTest {
   @InjectMocks
   private EserviceClient client = mock(EserviceClient.class);
 
-  private Message message;
+  private Message message = new Message();
   private EserviceDTO eServiceDTO;
+  private Map<String, String> attributes = new HashMap<>();
+  private String mockedId = "mockedId";
 
-@BeforeEach
+  @BeforeEach
   void setup() throws IOException {
+    AWSXRay.beginSegment("test");
     String[] basePath = {"basePath1", "basePath2"};
     String[] audience = {"audience1", "audience2"};
     eServiceDTO =
@@ -65,8 +73,9 @@ class ServicesReceiverTest {
             .technology(EserviceTechnology.REST).basePath(basePath).audience(audience)
             .versionNumber(1).build();
 
-    message = new Message();
     message.setBody(eServiceDTO.toString());
+    message.setAttributes(attributes);
+    attributes.put("AWSTraceHeader", mockedId);
 
     Injector injector = Guice.createInjector(new AbstractModule() {
       @Override
@@ -87,9 +96,16 @@ class ServicesReceiverTest {
     servicesReceiver = injector.getInstance(ServicesReceiver.class);
   }
 
+  @AfterEach
+  void clean() {
+    AWSXRay.endSegment();
+  }
+
   @Test
   @DisplayName("The method reads message from queue and saves to db")
   void testReceiveStringMessage_whenReadMessage_thenSaveMessage() throws IOException {
+
+
 
     Mockito.when(sqsMock.receiveMessage(Mockito.any(ReceiveMessageRequest.class))).thenReturn(
         new ReceiveMessageResult().withMessages(List.of(message)), new ReceiveMessageResult());
@@ -100,7 +116,7 @@ class ServicesReceiverTest {
     try (MockedStatic<Feign> feignMock = mockStatic(Feign.class)) {
       feignMock.when(Feign::builder).thenReturn(builderMock);
 
-      Mockito.when(builderMock.client(Mockito.any(OkHttpClient.class))).thenReturn(builderMock);
+      Mockito.when(builderMock.client(Mockito.any(Client.class))).thenReturn(builderMock);
       Mockito.when(builderMock.encoder(Mockito.any(GsonEncoder.class))).thenReturn(builderMock);
       Mockito.when(builderMock.decoder(Mockito.any(GsonDecoder.class))).thenReturn(builderMock);
       Mockito.when(builderMock.target(Mockito.eq(EserviceClient.class), Mockito.anyString()))

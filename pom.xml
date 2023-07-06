@@ -21,6 +21,7 @@
 		<logback.version>1.3.5</logback.version>
 		<feign.version>10.11</feign.version>
 		<google.inject.version>6.0.0</google.inject.version>
+		<com.amazonaws.version>2.14.0</com.amazonaws.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -119,6 +120,27 @@
 			<artifactId>guice</artifactId>
 			<version>${google.inject.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-xray-recorder-sdk-aws-sdk</artifactId>
+			<version>${com.amazonaws.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-xray-recorder-sdk-aws-sdk-instrumentor</artifactId>
+			<version>${com.amazonaws.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-xray-recorder-sdk-apache-http</artifactId>
+			<version>${com.amazonaws.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-httpclient</artifactId>
+			<version>12.3</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
