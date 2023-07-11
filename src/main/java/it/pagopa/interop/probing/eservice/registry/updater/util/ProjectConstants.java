@@ -7,7 +7,6 @@ public class ProjectConstants {
     super();
   }
 
-  public static final String TRACE_ID_PLACEHOLDER = "trace_id";
   public static final String TRACE_HEADER_PLACEHOLDER = "AWSTraceHeader";
 
 }
