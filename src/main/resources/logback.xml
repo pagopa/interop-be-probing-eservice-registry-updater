@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>DENY</onMatch>
+		</filter>
+		<encoder
+			class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout
+				class="it.pagopa.interop.probing.eservice.registry.updater.util.logging.LoggerLayout" />
+		</encoder>
+	</appender>
+
+	<appender name="STDERR"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<encoder
+			class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout
+				class="it.pagopa.interop.probing.eservice.registry.updater.util.logging.LoggerLayout" />
+		</encoder>
+		<target>System.err</target>
+	</appender>
+
+	<appender name="ASYNC_STDOUT"
+		class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>8192</queueSize>
+		<neverBlock>true</neverBlock>
+		<appender-ref ref="STDOUT" />
+	</appender>
+
+	<appender name="ASYNC_STDERR"
+		class="ch.qos.logback.classic.AsyncAppender">
+		<queueSize>8192</queueSize>
+		<neverBlock>true</neverBlock>
+		<appender-ref ref="STDERR" />
+	</appender>
+
+	<logger name="com.amazonaws" level="WARN" />
+	<logger name="javax.validation" level="WARN" />
+	<logger name="org.junit.jupiter" level="WARN" />
+	<logger name="org.mockito" level="WARN" />
+	<logger name="org.projectlombok" level="WARN" />
+	<logger name="org.slf4j" level="WARN" />
+	<logger name="ch.qos.logbacks" level="WARN" />
+	<logger name="org.apache.commons" level="WARN" />
+	<logger name="com.typesafe" level="WARN" />
+	<logger name="io.github.openfeign" level="WARN" />
+	<logger name="jakarta.activation" level="WARN" />
+
+	<logger name="it.pagopa.interop.probing.eservice.registry.updater" level="INFO" />
+
+	<root name="application" level="INFO">
+		<appender-ref ref="ASYNC_STDOUT" />
+		<appender-ref ref="ASYNC_STDERR" />
+	</root>
+
+</configuration>
