@@ -20,6 +20,6 @@ public class InteropProbingApplication {
         Guice.createInjector(new BaseModule(), new PropertiesLoader(), new SqsConfig());
     ServicesReceiver servicesReceiver = injector.getInstance(ServicesReceiver.class);
     servicesReceiver.receiveStringMessage();
-    log.info("Eservice-Registry-Updater started at: {}", LocalDateTime.now(ZoneOffset.UTC));
+    log.info("Eservice-Registry-Updater ended at: {}", LocalDateTime.now(ZoneOffset.UTC));
   }
 }
