@@ -3,6 +3,7 @@ package it.pagopa.interop.probing.eservice.registry.updater.consumer;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
@@ -53,6 +54,7 @@ public class ServicesReceiver {
         .withMaxNumberOfMessages(10).withAttributeNames(ProjectConstants.TRACE_HEADER_PLACEHOLDER);
 
     List<Message> sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+    logger.logNumberMessagesReceived(Objects.nonNull(sqsMessages) ? sqsMessages.size() : 0);
     while (!sqsMessages.isEmpty()) {
       for (Message message : sqsMessages) {
         String traceHeaderStr =
@@ -87,6 +89,7 @@ public class ServicesReceiver {
         AWSXRay.endSegment();
       }
       sqsMessages = sqs.receiveMessage(receiveMessageRequest).getMessages();
+      logger.logNumberMessagesReceived(Objects.nonNull(sqsMessages) ? sqsMessages.size() : 0);
     }
 
   }
