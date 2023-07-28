@@ -12,4 +12,6 @@ public interface Logger {
   void logMessageEserviceSaved(UUID eserviceId, UUID versionId);
 
   void logMessageQueueMessageDeleted(UUID eserviceId, UUID versionId, URI queueUrl);
+
+  void logNumberMessagesReceived(Integer numberMessages);
 }

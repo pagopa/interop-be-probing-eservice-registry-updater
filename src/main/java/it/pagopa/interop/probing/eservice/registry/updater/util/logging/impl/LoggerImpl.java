@@ -35,4 +35,9 @@ public class LoggerImpl implements Logger {
         "[TRACE_ID= {}] - Message deleted from queue, reading next message. eserviceId={}, versioneId={}, queue={}",
         AWSXRay.getCurrentSegment().getTraceId().toString(), eserviceId, versionId, queueUrl);
   }
+
+  @Override
+  public void logNumberMessagesReceived(Integer numberMessages) {
+    log.info("Number of Messages received: {}", numberMessages);
+  }
 }
