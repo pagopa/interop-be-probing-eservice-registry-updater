@@ -14,6 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class InteropProbingApplication {
 
+  static {
+    System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+  }
+
+
   public static void main(String[] args) throws IOException {
     log.info("Eservice-Registry-Updater started at: {}", LocalDateTime.now(ZoneOffset.UTC));
     Injector injector =
